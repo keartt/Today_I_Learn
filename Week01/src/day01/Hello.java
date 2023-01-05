@@ -1,3 +1,4 @@
+package day01;
 // import java.lang.*;
 // extends Objcet 가 기본으로 되어 있음
 public class Hello {

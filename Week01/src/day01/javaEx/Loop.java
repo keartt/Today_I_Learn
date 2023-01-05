@@ -1,4 +1,4 @@
-package javaex;
+package day01.javaEx;
 
 public class Loop {
 	public static void main(String[] args) {
