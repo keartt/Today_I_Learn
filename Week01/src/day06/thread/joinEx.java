@@ -1,4 +1,4 @@
-package day06;
+package day06.thread;
 
 class MyRunnableTwo implements Runnable {
 	@Override

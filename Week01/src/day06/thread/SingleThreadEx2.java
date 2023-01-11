@@ -1,4 +1,4 @@
-package day06;
+package day06.thread;
 
 public class SingleThreadEx2 implements Runnable {
 	private int[] temp;

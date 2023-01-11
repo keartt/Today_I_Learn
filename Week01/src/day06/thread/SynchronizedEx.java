@@ -1,4 +1,4 @@
-package day06;
+package day06.thread;
 
 class ATM implements Runnable {
 	private long depositMoney = 10000;

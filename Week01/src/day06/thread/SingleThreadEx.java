@@ -1,4 +1,4 @@
-package day06;
+package day06.thread;
 
 public class SingleThreadEx extends Thread {
 	private int[] temp;
