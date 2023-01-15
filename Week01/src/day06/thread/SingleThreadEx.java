@@ -13,7 +13,7 @@ public class SingleThreadEx extends Thread {
 	public void run() {
 		for (int start : temp) {
 			try {
-				Thread.sleep(1000);
+				Thread.sleep(10000);
 			} catch (InterruptedException ie) {
 				ie.printStackTrace();
 			}
@@ -22,7 +22,7 @@ public class SingleThreadEx extends Thread {
 		}
 	}
 	public static void main(String[] args) {
-		SingleThreadEx st = new SingleThreadEx("super man");
+		Thread st = new SingleThreadEx("super man");
 		st.start();
 	}
 

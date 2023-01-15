@@ -9,7 +9,7 @@ class ATM implements Runnable {
 				
 					// 1번 방법
 				try { //try는 예외를 감지하는
-					notify();//시작을 뜻함					//먼저 부모가 들어옴
+					notifyAll();//시작을 뜻함					//먼저 부모가 들어옴
 					Thread.sleep(10);   				//1초 마다
 					if (getDepositMoney()<=0)
 						break;

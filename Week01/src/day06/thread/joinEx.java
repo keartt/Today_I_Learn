@@ -28,6 +28,7 @@ public class joinEx {
 		// 조인 안하면 메인 먼저 끝나고 스레드 실행됨
 		// 스레드는 별도의 프로세스, 메인과 별도
 		try {
+			//Thread.sleep(10000);
 			t.join();
 		} catch (Exception e) {
 			e.printStackTrace();

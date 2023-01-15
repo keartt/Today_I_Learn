@@ -14,8 +14,6 @@ public class MultiClientThread extends Thread{
         boolean isStop = false;
         while(!isStop){
             try{
-            	// string message 는 클라이언트 인풋 스트림으로 받아온 값을
-            	// 객체로 읽어 string 으로 변환한 값
                 message = (String)mc.getOis().readObject();
                 
                 // receivedMsg 배열은 위 메시지를 #으로 나눈 배열 string 형
