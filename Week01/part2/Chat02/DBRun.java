@@ -3,6 +3,7 @@ package Chat02;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 
 // 데이터 DB 에 저장/조회 하는 클래스
 public class DBRun {
@@ -134,4 +135,39 @@ public class DBRun {
 		return name;
 	}
 
+	public static ArrayList<UsersTable> getInfo() throws ClassNotFoundException {
+		Connection con = DB.getConnection();
+		ArrayList<UsersTable> info = null;
+		try {
+			psmt = con.prepareStatement("select * from users");
+			ResultSet rs = psmt.executeQuery();
+			
+			info = new ArrayList<UsersTable>();
+			while (rs.next()) {
+				int id = rs.getInt("id");
+				String name = rs.getString("name");
+				String email = rs.getString("email");
+				String user_id = rs.getString("user_id");
+				String user_pw = rs.getString("user_pw");
+				boolean isAdmin = rs.getBoolean("isAdmin");
+				
+				
+				info.add(new UsersTable(id, name, email, user_id, user_pw, isAdmin));
+				
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				DB.close(con);
+				DB.close(rs);
+				DB.close(psmt);
+			} catch (Exception e2) {
+
+			}
+		}
+		return info;
+	}
+	
 }

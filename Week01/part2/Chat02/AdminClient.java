@@ -116,8 +116,14 @@ public class AdminClient extends JFrame implements ActionListener, KeyListener{
 		userA = new JTextArea();
 		userA.setBounds(240,340,710,300);
 		getContentPane().add(userA);
+		// 줄바꿈
+		userA.setLineWrap(true);
+		// 수정가능여부
+		userA.setEditable(false);
 		userA.revalidate();
-		userA.repaint();
+//		userA.repaint();
+		
+		//getUserA().append("순서\t이름\t이메일\t아이디\t비밀번호\t관리자여부\t\n");
 	}
 	
 //	public static void main(String[] args) throws UnknownHostException, IOException {
@@ -131,8 +137,8 @@ public class AdminClient extends JFrame implements ActionListener, KeyListener{
 	
 	public ObjectInputStream getOis(){return ois;}
 	public JTextArea getChatA() { return chatA;}
-	public JTextArea getLoginA() { return chatA;}
-	public JTextArea getUserA() { return chatA;}
+	public JTextArea getLoginA() { return loginA;}
+	public JTextArea getUserA() { return userA;}
 	
 	// JList 컴포넌트에 항목을 추가하기 위해서는 리스트 모델로 접근
 	// 해서 addElement(" String type " ) 을 실행하면 돼

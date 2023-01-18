@@ -3,18 +3,20 @@ package Chat02;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 public class AdminThread extends Thread {
 	
 	private AdminClient admin;
 	private String message;
-	String[] receivedMsg, receivedName;
+	String[] receivedMsg;
+	ArrayList<UsersTable> info;
 	
 	public AdminThread(AdminClient admin) {
 		this.admin= admin;
 	}
 	
-	@SuppressWarnings("unchecked")
 	public void run() {
 
 		boolean isStop = false;
@@ -25,14 +27,33 @@ public class AdminThread extends Thread {
 
 			// 메시지 받아서 split
 			try {
+				
+//-------------------회원정보-uesrA-------------------------------------------------------
+				info =  DBRun.getInfo();
+				admin.getUserA().setText("");
+				admin.getUserA().append("순서\t이름\t이메일\t아이디\t비밀번호\t관리자여부\t"+System.getProperty("line.separator"));
+				for (UsersTable m : info) {
+					admin.getUserA().append( m.getId()
+							+"\t"+ m.getName()
+							+"\t"+ m.getEmail()
+							+"\t"+ m.getUser_id()
+							+"\t"+ m.getUser_pw()
+							+"\t"+ m.isAdmin() +
+							System.getProperty("line.separator"));
+				}
+				
+				
+				
+				
+//-------------------채팅히스토리-ChatA-------------------------------------------------------
+				
 				message = (String) admin.getOis().readObject();
 				receivedMsg = message.split("#");
-				receivedName = message.split("#");
 				// 시간
 				String formatedNow = LocalTime.now().format(DateTimeFormatter.ofPattern("HH시 mm분 ss초"));
 
-				// 처음 입장시
-				// 클라이언트 스레드와 동일한 내용 
+//				 처음 입장시
+//				 클라이언트 스레드와 동일한 내용 
 				if (message.contains("#")) {
 					// 퇴장
 					if (receivedMsg[1].equals("exit")) {
@@ -47,7 +68,7 @@ public class AdminThread extends Thread {
 								+ formatedNow + System.getProperty("line.separator"));
 					}
 				} else {
-					admin.getListA().setText("");
+					admin.getListA().setText("admin \n");
 					admin.getListA().append(message);
 				}
 				
