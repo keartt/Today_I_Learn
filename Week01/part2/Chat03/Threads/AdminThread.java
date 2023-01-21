@@ -1,4 +1,4 @@
-package Chat03;
+package Chat03.Threads;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -8,16 +8,17 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Locale;
 
+import Chat03.Client.AdminClient;
 import Chat03.db.DBRun;
 import Chat03.db.LoginLog;
-import Chat03.db.UsersTable;
+import Chat03.db.Users;
 
 public class AdminThread extends Thread {
 	
 	private AdminClient admin;
 	private String message;
 	String[] receivedMsg;
-	ArrayList<UsersTable> info;
+	ArrayList<Users> info;
 	ArrayList<LoginLog> log;
 	
 	public AdminThread(AdminClient admin) {
@@ -40,13 +41,9 @@ public class AdminThread extends Thread {
 				admin.getLoginA().setText("");
 				admin.getLoginA().append("아이디  로그인여부  시간"+System.getProperty("line.separator"));
 				admin.getLoginA().append("----".repeat(16)+System.getProperty("line.separator"));
-				
-				
 				for (LoginLog l : log) {
-					
 					// 타임스탬프 - 포맷지정
 					String timeF = new SimpleDateFormat( "HH시 mm분 ss초" , Locale.KOREA ).format( l.getIn_out_time() );
-					
 					String loginCheck;
 					if (l.isLogin()) {
 						loginCheck = "<- 로그인";
@@ -60,13 +57,12 @@ public class AdminThread extends Thread {
 							System.getProperty("line.separator"));
 				}
 				
-				
 //-------------------회원정보-uesrA-------------------------------------------------------
 				info =  DBRun.getInfo();
 				admin.getUserA().setText("");
 				admin.getUserA().append("순서\t이름\t이메일\t아이디\t비밀번호\t관리자여부\t"+System.getProperty("line.separator"));
 				admin.getUserA().append("----".repeat(40)+System.getProperty("line.separator"));
-				for (UsersTable m : info) {
+				for (Users m : info) {
 					admin.getUserA().append( m.getId()
 							+"\t"+ m.getName()
 							+"\t"+ m.getEmail()
@@ -84,8 +80,7 @@ public class AdminThread extends Thread {
 				// 시간
 				String formatedNow = LocalTime.now().format(DateTimeFormatter.ofPattern("HH시 mm분 ss초"));
 
-//				 처음 입장시
-//				 클라이언트 스레드와 동일한 내용 
+				//입장, 퇴장 메시지와 유저리스트 추가 내용은  클라이언트 스레드와 동일한 내용 
 				if (message.contains("#")) {
 					// 퇴장
 					if (receivedMsg[1].equals("exit")) {
@@ -102,26 +97,24 @@ public class AdminThread extends Thread {
 					}
 					
 					
-// 귓말과 일반 대화 내용은 - > DB 에 저장되어 있는 내용 출력 
+					// 귓말과 일반 대화 내용은 - > DB 에 저장되어 있는 내용 출력 
 					// 귓말
 					else if (receivedMsg[1].equals("귓말")) {
 						admin.getChatA().append(  "-----귓말----- " +receivedMsg[0] + " 님이 " +receivedMsg[2] +" 에게 : "+receivedMsg[3] + "\t" + "\t"
 								+ formatedNow + System.getProperty("line.separator"));
 					}
-					// 디폴트
+					// 디폴트 채팅내용
 					else {
-						if (message.contains("`")) {
-							admin.loginA.append(message);
-						} else {
-							admin.getChatA().append(receivedMsg[0] + "\t : " +receivedMsg[1] + "\t" + "\t"
-									+ formatedNow + System.getProperty("line.separator"));
-						}
+						admin.getChatA().append(receivedMsg[0] + "\t : " +receivedMsg[1] + "\t" + "\t"
+								+ formatedNow + System.getProperty("line.separator"));
 					}
 				 // 유저리스트에 추가 	
 				} else {
 					admin.getListA().setText("");
 					admin.getListA().append(message);
 				}
+				
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 				isStop = true;

@@ -1,4 +1,4 @@
-package Chat03;
+package Chat03.Client;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,6 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import Chat03.Run.LoginStart;
 import Chat03.db.DBRun;
 
 public class Join extends JFrame implements ActionListener, KeyListener {

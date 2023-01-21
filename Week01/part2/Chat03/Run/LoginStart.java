@@ -1,4 +1,4 @@
-package Chat03;
+package Chat03.Run;
 
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -22,6 +22,9 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import Chat03.Client.AdminClient;
+import Chat03.Client.Join;
+import Chat03.Client.MultiClient;
 import Chat03.db.DBRun;
 
 

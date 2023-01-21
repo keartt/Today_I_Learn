@@ -1,4 +1,4 @@
-package Chat03;
+package Chat03.Threads;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -6,6 +6,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import Chat03.Run.MultiServer;
 import Chat03.db.DBRun;
 
 public class MultiServerThread implements Runnable {

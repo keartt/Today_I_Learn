@@ -1,4 +1,4 @@
-package Chat03;
+package Chat03.Client;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -20,6 +20,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import Chat03.Threads.MultiClientThread;
 import Chat03.db.DBRun;
 
 public class MultiClient extends JFrame implements ActionListener, KeyListener{
@@ -44,7 +45,7 @@ public class MultiClient extends JFrame implements ActionListener, KeyListener{
 		
 		// 전체 사이즈 & 틀
 		setTitle("채팅방");
-		setSize(350, 490);
+		setSize(360, 490);
 		setResizable(false);
 		getContentPane().setLayout(null);
 		
@@ -59,13 +60,13 @@ public class MultiClient extends JFrame implements ActionListener, KeyListener{
 		// 채팅 내용 area
 		chat = new JTextArea();
 		JScrollPane chatScrollPane = new JScrollPane(chat);
-		chatScrollPane.setBounds(10,45,320, 350);
+		chatScrollPane.setBounds(10,45,330, 350);
 		getContentPane().add(chatScrollPane);
 		chat.setEditable(false);
 		
 		// 리스트 목록 
 		list = new JTextArea();
-		list.setBounds(10,45,320, 350);
+		list.setBounds(10,45,330, 350);
 		getContentPane().add(list);
 		list.revalidate();
 		list.repaint();
@@ -74,35 +75,35 @@ public class MultiClient extends JFrame implements ActionListener, KeyListener{
 		
 		// 채팅 입력 창 textField
 		textField = new JTextField();
-		textField.setBounds(10,410, 180, 33);
+		textField.setBounds(10,410, 190, 33);
 		getContentPane().add(textField);
 		textField.revalidate();
 		textField.repaint();
 
 		// 귓속말 버튼 wBtn
 		wBtn = new JButton("귓말");
-		wBtn.setBounds(195,410, 65, 33);
+		wBtn.setBounds(205,410, 65, 33);
 		getContentPane().add(wBtn);
 		wBtn.revalidate();
 		wBtn.repaint();
 		
 		// 입력 버튼 inputBtn
 		inputBtn = new JButton("입력");
-		inputBtn.setBounds(265,410, 65, 33);
+		inputBtn.setBounds(275,410, 65, 33);
 		getContentPane().add(inputBtn);
 		inputBtn.revalidate();
 		inputBtn.repaint();
 		
 		// 다크모드 버튼 darkmodBtn
 		darkmodBtn = new JButton("■");
-		darkmodBtn.setBounds(185, 5, 45, 33);
+		darkmodBtn.setBounds(195, 5, 45, 33);
 		getContentPane().add(darkmodBtn);
 		darkmodBtn.revalidate();
 		darkmodBtn.repaint();
 		
 		// 사용자 리스트 버튼 
 		listBtn = new JButton("접속유저");
-		listBtn.setBounds(235, 5, 95, 33);
+		listBtn.setBounds(245, 5, 95, 33);
 		getContentPane().add(listBtn);
 		listBtn.revalidate();
 		listBtn.repaint();

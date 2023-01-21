@@ -1,7 +1,7 @@
 package Chat03.db;
 
 // users 테이블의 내용 가져오기 위한 클래스 
-public class UsersTable {
+public class Users {
 	private int id; 
 	private String name; 
 	private String email;
@@ -10,7 +10,7 @@ public class UsersTable {
 	private boolean isAdmin;
 	
 //	생성자
-	public UsersTable(int id, String name, String email, String user_id, String user_pw, boolean isAdmin) {
+	public Users(int id, String name, String email, String user_id, String user_pw, boolean isAdmin) {
 	super();
 	this.id = id;
 	this.name = name;

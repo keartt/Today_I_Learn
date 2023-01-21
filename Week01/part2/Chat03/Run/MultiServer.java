@@ -1,8 +1,10 @@
-package Chat03;
+package Chat03.Run;
 
 import java.io.*;
 import java.net.*;
 import java.util.*;
+
+import Chat03.Threads.MultiServerThread;
 
 public class MultiServer {
 	

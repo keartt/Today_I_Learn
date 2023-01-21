@@ -141,14 +141,14 @@ public class DBRun {
 	}
 
 	// 관리자페이지의 유저정보  
-	public static ArrayList<UsersTable> getInfo() throws ClassNotFoundException {
+	public static ArrayList<Users> getInfo() throws ClassNotFoundException {
 		Connection con = DBConnection.getConnection();
-		ArrayList<UsersTable> info = null;
+		ArrayList<Users> info = null;
 		try {
 			psmt = con.prepareStatement("select * from users");
 			ResultSet rs = psmt.executeQuery();
 
-			info = new ArrayList<UsersTable>();
+			info = new ArrayList<Users>();
 			while (rs.next()) {
 				int id = rs.getInt("id");
 				String name = rs.getString("name");
@@ -157,7 +157,7 @@ public class DBRun {
 				String user_pw = rs.getString("user_pw");
 				boolean isAdmin = rs.getBoolean("isAdmin");
 
-				info.add(new UsersTable(id, name, email, user_id, user_pw, isAdmin));
+				info.add(new Users(id, name, email, user_id, user_pw, isAdmin));
 
 			}
 
@@ -202,7 +202,6 @@ public class DBRun {
 				DBConnection.close(rs);
 				DBConnection.close(psmt);
 			} catch (Exception e2) {
-
 			}
 		}
 		
@@ -332,8 +331,4 @@ public class DBRun {
 		}
 	}
 	
-	// admin 페이지에서의 채팅 히스토리 - chatlog 테이블 관리용 
-	public static void ChatSelect () {
-		
-	}
 }

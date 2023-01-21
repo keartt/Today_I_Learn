@@ -1,4 +1,4 @@
-package Chat03;
+package Chat03.Client;
 
 import java.awt.BorderLayout;
 import java.awt.TextArea;
@@ -21,6 +21,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+
+import Chat03.Threads.AdminThread;
 
 public class AdminClient extends JFrame implements ActionListener, KeyListener {
 
@@ -67,7 +69,7 @@ public class AdminClient extends JFrame implements ActionListener, KeyListener {
 		getContentPane().add(loginA);
 
 		// 현재 채팅 내용 chatLa chatA
-		chatLa = new JLabel("현재 채팅내용", JLabel.CENTER);
+		chatLa = new JLabel("채팅 히스토리", JLabel.CENTER);
 		chatLa.setBounds(20, 0, 630, 40);
 		getContentPane().add(chatLa);
 		chatLa.revalidate();

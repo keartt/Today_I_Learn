@@ -1,10 +1,11 @@
-package Chat03;
+package Chat03.Threads;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 
+import Chat03.Client.MultiClient;
 import Chat03.db.DBRun;
 
 public class MultiClientThread extends Thread {
