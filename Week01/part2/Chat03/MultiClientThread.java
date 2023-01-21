@@ -44,11 +44,13 @@ public class MultiClientThread extends Thread {
 				} else {
 					// 종료
 					if (receivedMsg[1].equals("exit")) {
+						// 퇴장 시 로그인 테이블의 login 값 false 로 insert
+						DBRun.Login_out(receivedMsg[0]);
 						// 퇴장 메시지 출력 및 시간 출력
 						if (receivedMsg[0].equals(mc.getName())) {
 							mc.exit();
 						} else {
-							mc.getChat().append(receivedMsg[0] + "님이 종료 하셨습니다." + "\t" + LocalDate.now() + "\t"
+							mc.getChat().append(receivedMsg[0] + "님이 종료 하셨습니다." + "\t"  + "\t"
 									+ formatedNow + System.getProperty("line.separator"));
 							mc.getTextField().setCaretPosition(mc.getTextField().getDocument().getLength());
 						}
@@ -65,7 +67,7 @@ public class MultiClientThread extends Thread {
 						if (receivedMsg[2].equals(mc.getName())) {
 							mc.exit();
 						} else {
-							mc.getChat().append(receivedMsg[2] + "님이" + receivedMsg[0] +" 님에 의해 강퇴되었습니다." + "\t" + LocalDate.now() + "\t"
+							mc.getChat().append(receivedMsg[2] + "님이" + receivedMsg[0] +" 님에 의해 강퇴되었습니다." + "\t" + "\t"
 									+ formatedNow + System.getProperty("line.separator"));
 							mc.getTextField().setCaretPosition(mc.getTextField().getDocument().getLength());
 						}
@@ -73,20 +75,20 @@ public class MultiClientThread extends Thread {
 					
 					// 비속어 처리 + 시간 출력
 					else if (receivedMsg[1].equals("시발") || receivedMsg[1].equals("바보")) {
-						mc.getChat().append(receivedMsg[0] + " : **" + "\t" + "욕설을 하지 마세요!!" + "\t" + LocalDate.now()
+						mc.getChat().append(receivedMsg[0] + " : **" + "\t" + "욕설을 하지 마세요!!" + "\t"
 								+ "\t" + formatedNow + System.getProperty("line.separator"));
 						mc.getChat().setCaretPosition(mc.getTextField().getDocument().getLength());
 					}
 					// 입장메시지
 					else if (receivedMsg[1].equals("in")) {
-						mc.getChat().append(receivedMsg[0] + " : 님 입장!" + "\t" + LocalDate.now() + "\t"
+						mc.getChat().append(receivedMsg[0] + " : 님 입장!" + "\t"  + "\t"
 								+ formatedNow + System.getProperty("line.separator"));
 						mc.getChat().setCaretPosition(mc.getTextField().getDocument().getLength());
 					}
 					// 귓말
 					else if (receivedMsg[1].equals("귓말")) {
 						if (receivedMsg[2].equals(mc.getName())) {
-							mc.getChat().append("-->"+receivedMsg[0] + " 님의 귓말  :" + receivedMsg[3]+ "\t" + LocalDate.now() + "\t"
+							mc.getChat().append("-->"+receivedMsg[0] + " 님의 귓말  :" + receivedMsg[3]+ "\t"  + "\t"
 									+ formatedNow + System.getProperty("line.separator"));
 							mc.getTextField().setCaretPosition(mc.getTextField().getDocument().getLength());
 						} else {
@@ -97,7 +99,7 @@ public class MultiClientThread extends Thread {
 					
 					// 메시지 + 시간 출력
 					else {
-						mc.getChat().append(receivedMsg[0] + " : " + receivedMsg[1] + "\t" + LocalDate.now() + "\t"
+						mc.getChat().append(receivedMsg[0] + " : " + receivedMsg[1] + "\t"  + "\t"
 								+ formatedNow + System.getProperty("line.separator"));
 						mc.getChat().setCaretPosition(mc.getTextField().getDocument().getLength());
 					}

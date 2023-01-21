@@ -49,14 +49,14 @@ public class AdminThread extends Thread {
 					
 					String loginCheck;
 					if (l.isLogin()) {
-						loginCheck = "로그인";
+						loginCheck = "<- 로그인";
 					}else {
-						loginCheck = "로그아웃";
+						loginCheck = "->로그아웃";
 					}
 					admin.getLoginA().append( 
 							l.getUser_id()
-							+" - "+ loginCheck
-							+" - "+ timeF +
+							+ loginCheck
+							+" \t "+ timeF +
 							System.getProperty("line.separator"));
 				}
 				
@@ -89,16 +89,15 @@ public class AdminThread extends Thread {
 				if (message.contains("#")) {
 					// 퇴장
 					if (receivedMsg[1].equals("exit")) {
-						DBRun.Login_out(receivedMsg[0]);
-							admin.getChatA().append("-----" +receivedMsg[0] + " : 님 종료." + "\t" + LocalDate.now() + "\t"
+							admin.getChatA().append("-----" +receivedMsg[0] + " : 님 종료." + "\t"  + "\t"
 									+ formatedNow + System.getProperty("line.separator"));
 					// 강퇴
 					}else if (receivedMsg[1].equals("kick")) {
-							admin.getChatA().append(receivedMsg[2] + "님이" + receivedMsg[0] +" 님에 의해 강퇴되었습니다." + "\t" + LocalDate.now() + "\t"
+							admin.getChatA().append(receivedMsg[2] + "님이" + receivedMsg[0] +" 님에 의해 강퇴되었습니다." + "\t"  + "\t"
 									+ formatedNow + System.getProperty("line.separator"));
 					}// 입장메시지
 					else if (receivedMsg[1].equals("in")) {
-						admin.getChatA().append("-----" + receivedMsg[0] + " : 님 입장!" + "\t" + LocalDate.now() + "\t"
+						admin.getChatA().append("-----" + receivedMsg[0] + " : 님 입장!" + "\t"  + "\t"
 								+ formatedNow + System.getProperty("line.separator"));
 					}
 					
@@ -106,7 +105,7 @@ public class AdminThread extends Thread {
 // 귓말과 일반 대화 내용은 - > DB 에 저장되어 있는 내용 출력 
 					// 귓말
 					else if (receivedMsg[1].equals("귓말")) {
-						admin.getChatA().append(  "-----귓말----- " +receivedMsg[0] + " 님이 " +receivedMsg[2] +" 에게 : "+receivedMsg[3] + "\t" + LocalDate.now() + "\t"
+						admin.getChatA().append(  "-----귓말----- " +receivedMsg[0] + " 님이 " +receivedMsg[2] +" 에게 : "+receivedMsg[3] + "\t" + "\t"
 								+ formatedNow + System.getProperty("line.separator"));
 					}
 					// 디폴트
@@ -114,7 +113,7 @@ public class AdminThread extends Thread {
 						if (message.contains("`")) {
 							admin.loginA.append(message);
 						} else {
-							admin.getChatA().append(receivedMsg[0] + "\t : " +receivedMsg[1] + "\t" + LocalDate.now() + "\t"
+							admin.getChatA().append(receivedMsg[0] + "\t : " +receivedMsg[1] + "\t" + "\t"
 									+ formatedNow + System.getProperty("line.separator"));
 						}
 					}

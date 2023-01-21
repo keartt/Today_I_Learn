@@ -16,6 +16,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
@@ -28,7 +29,7 @@ public class MultiClient extends JFrame implements ActionListener, KeyListener{
 	private JTextField textField;		
 	private JButton darkmodBtn, inputBtn, listBtn, wBtn;		
 	private String ip;					
-	private static String name, user_id;
+	private static String name;
 	
 	private Socket socket;				
 	private ObjectInputStream ois;		
@@ -57,10 +58,10 @@ public class MultiClient extends JFrame implements ActionListener, KeyListener{
 		
 		// 채팅 내용 area
 		chat = new JTextArea();
-		chat.setBounds(10,45,320, 350);
-		getContentPane().add(chat);
-		chat.revalidate();
-		chat.repaint();
+		JScrollPane chatScrollPane = new JScrollPane(chat);
+		chatScrollPane.setBounds(10,45,320, 350);
+		getContentPane().add(chatScrollPane);
+		chat.setEditable(false);
 		
 		// 리스트 목록 
 		list = new JTextArea();
@@ -125,7 +126,6 @@ public class MultiClient extends JFrame implements ActionListener, KeyListener{
 				} catch (IOException ee) {
 					ee.printStackTrace();
 				} catch (ClassNotFoundException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
@@ -176,7 +176,6 @@ public class MultiClient extends JFrame implements ActionListener, KeyListener{
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			} catch (ClassNotFoundException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		}

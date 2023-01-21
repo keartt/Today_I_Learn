@@ -17,7 +17,7 @@ public class DBRun {
 
 	// 회원가입 시 아이디 중복 체크 -> 중복일 경우 false
 	public static boolean duplicateCheck(String user_id) throws ClassNotFoundException {
-		Connection con = DB.getConnection();
+		Connection con = DBConnection.getConnection();
 		try {
 			// 입력된 아이디와 같은 아이디가 db에 있는지 조회
 			psmt = con.prepareStatement("select user_id from users where user_id =?");
@@ -33,9 +33,9 @@ public class DBRun {
 			e.printStackTrace();
 		} finally {
 			try {
-				DB.close(rs);
-				DB.close(psmt);
-				DB.close(con);
+				DBConnection.close(rs);
+				DBConnection.close(psmt);
+				DBConnection.close(con);
 			} catch (Exception e2) {
 
 			}
@@ -46,7 +46,7 @@ public class DBRun {
 	// 회원가입
 	// 로그인 창에서 받은 값을 테이블에 삽입한다.
 	public static void join(String name, String email, String user_id, String user_pw) throws ClassNotFoundException {
-		Connection con = DB.getConnection();
+		Connection con = DBConnection.getConnection();
 		try {
 			psmt = con.prepareStatement("insert into users (name, email, user_id, user_pw) values (? , ? , ? ,?)");
 			psmt.setString(1, name);
@@ -59,8 +59,8 @@ public class DBRun {
 			e.printStackTrace();
 		} finally {
 			try {
-				DB.close(psmt);
-				DB.close(con);
+				DBConnection.close(psmt);
+				DBConnection.close(con);
 			} catch (Exception e2) {
 
 			}
@@ -71,7 +71,7 @@ public class DBRun {
 	// 로그인 -> id, pw 를 입력받아 db에 저장된 값과 일치 여부를 확인한다.
 	// 1 : 로그인 성공 , 2 : 비번 오류, 3: 아이디 부재, 0 : 오류, 9 : 관리자
 	public static int loginCheck(String user_id, String user_pw) throws ClassNotFoundException {
-		Connection con = DB.getConnection();
+		Connection con = DBConnection.getConnection();
 
 		try {
 			psmt = con.prepareStatement("select user_pw, isAdmin from users where user_id =?");
@@ -103,9 +103,9 @@ public class DBRun {
 
 		} finally {
 			try {
-				DB.close(rs);
-				DB.close(psmt);
-				DB.close(con);
+				DBConnection.close(rs);
+				DBConnection.close(psmt);
+				DBConnection.close(con);
 			} catch (Exception e2) {
 
 			}
@@ -116,7 +116,7 @@ public class DBRun {
 	// id - > name  : 채팅방에서는 아이디가 아닌 닉네임을 사용하기 때문에
 	public static String getName(String user_id) throws ClassNotFoundException {
 		String name = "";
-		Connection con = DB.getConnection();
+		Connection con = DBConnection.getConnection();
 		try {
 			// 유저 테이블에서 아이디 가져오는 쿼리문
 			psmt = con.prepareStatement("select name from users where user_id = ?");
@@ -130,9 +130,9 @@ public class DBRun {
 			e.printStackTrace();
 		} finally {
 			try {
-				DB.close(con);
-				DB.close(rs);
-				DB.close(psmt);
+				DBConnection.close(con);
+				DBConnection.close(rs);
+				DBConnection.close(psmt);
 			} catch (Exception e2) {
 
 			}
@@ -142,7 +142,7 @@ public class DBRun {
 
 	// 관리자페이지의 유저정보  
 	public static ArrayList<UsersTable> getInfo() throws ClassNotFoundException {
-		Connection con = DB.getConnection();
+		Connection con = DBConnection.getConnection();
 		ArrayList<UsersTable> info = null;
 		try {
 			psmt = con.prepareStatement("select * from users");
@@ -165,9 +165,9 @@ public class DBRun {
 			e.printStackTrace();
 		} finally {
 			try {
-				DB.close(con);
-				DB.close(rs);
-				DB.close(psmt);
+				DBConnection.close(con);
+				DBConnection.close(rs);
+				DBConnection.close(psmt);
 			} catch (Exception e2) {
 
 			}
@@ -178,7 +178,7 @@ public class DBRun {
 // ------------------------ loginlog 테이블 관련 ----------------------------------	
 	// LoginLog 테이블 관리용 - > 관리자 페이지의 로그인 기록 관리
 	public static ArrayList<LoginLog> getLog() throws ClassNotFoundException {
-		Connection con = DB.getConnection();
+		Connection con = DBConnection.getConnection();
 		ArrayList<LoginLog> log = null;
 		
 		try {
@@ -198,9 +198,9 @@ public class DBRun {
 			
 		}finally {
 			try {
-				DB.close(con);
-				DB.close(rs);
-				DB.close(psmt);
+				DBConnection.close(con);
+				DBConnection.close(rs);
+				DBConnection.close(psmt);
 			} catch (Exception e2) {
 
 			}
@@ -212,7 +212,7 @@ public class DBRun {
 	
 	// 로그인 성공 시 loginlog 테이블에 insert
 	public static void Login_in(String id) throws ClassNotFoundException {
-		Connection con = DB.getConnection();
+		Connection con = DBConnection.getConnection();
 		try {
 			psmt = con.prepareStatement("insert into loginlog (user_id) values ( ? )");
 			psmt.setString(1, id);
@@ -222,8 +222,8 @@ public class DBRun {
 			e.printStackTrace();
 		} finally {
 			try {
-				DB.close(psmt);
-				DB.close(con);
+				DBConnection.close(psmt);
+				DBConnection.close(con);
 			} catch (Exception e2) {
 			}
 		}
@@ -231,7 +231,7 @@ public class DBRun {
 	
 	// 채팅방 종료 시 loginlog 테이블의 longin 값 false 로 update
 	public static void Login_out(String id) throws ClassNotFoundException {
-		Connection con = DB.getConnection();
+		Connection con = DBConnection.getConnection();
 		try {
 			
 			psmt = con.prepareStatement("insert into loginlog (user_id, login) values ( ? , false )");
@@ -242,8 +242,8 @@ public class DBRun {
 			e.printStackTrace();
 		} finally {
 			try {
-				DB.close(psmt);
-				DB.close(con);
+				DBConnection.close(psmt);
+				DBConnection.close(con);
 			} catch (Exception e2) {
 			}
 		}
@@ -251,7 +251,7 @@ public class DBRun {
 	
 	// 중복 로그인 방지 -- loginlog 의 login 값의 상태를 반환 
 	public static boolean LoginConnectionChk(String user_id) throws ClassNotFoundException {
-		Connection con = DB.getConnection();
+		Connection con = DBConnection.getConnection();
 		
 		try {
 			psmt = con.prepareStatement("select login from loginlog where user_id =?"
@@ -274,9 +274,9 @@ public class DBRun {
 
 		} finally {
 			try {
-				DB.close(rs);
-				DB.close(psmt);
-				DB.close(con);
+				DBConnection.close(rs);
+				DBConnection.close(psmt);
+				DBConnection.close(con);
 			} catch (Exception e2) {
 
 			}
@@ -291,7 +291,7 @@ public class DBRun {
 // ------------------------ chatlog 테이블 관련 ----------------------------------	
 	// 전채 채팅 진행 시 Chatlog 테이블에 insert
 	public static void ChatEvery(String name, String contens) throws ClassNotFoundException {
-		Connection con = DB.getConnection();
+		Connection con = DBConnection.getConnection();
 		try {
 			psmt = con.prepareStatement("insert into chatlog (sender, contents) values (? , ?)");
 			psmt.setString(1, name);
@@ -302,8 +302,8 @@ public class DBRun {
 			e.printStackTrace();
 		} finally {
 			try {
-				DB.close(psmt);
-				DB.close(con);
+				DBConnection.close(psmt);
+				DBConnection.close(con);
 			} catch (Exception e2) {
 
 			}
@@ -312,7 +312,7 @@ public class DBRun {
 	
 	// 귓말 - Chatlog 테이블에 insert
 	public static void ChatWhisper (String name, String receiver, String contents) throws ClassNotFoundException {
-		Connection con = DB.getConnection();
+		Connection con = DBConnection.getConnection();
 		try {
 			psmt = con.prepareStatement("insert into chatlog (sender, receiver, contents) values (? , ?, ?)");
 			psmt.setString(1, name);
@@ -324,8 +324,8 @@ public class DBRun {
 			e.printStackTrace();
 		} finally {
 			try {
-				DB.close(psmt);
-				DB.close(con);
+				DBConnection.close(psmt);
+				DBConnection.close(con);
 			} catch (Exception e2) {
 
 			}

@@ -49,8 +49,8 @@ public class AdminClient extends JFrame implements ActionListener, KeyListener {
 
 	// GUI
 	public void start() {
-		setVisible(true);
 		JFrame.setDefaultLookAndFeelDecorated(true);
+		setVisible(true);
 		setTitle("관리자 페이지");
 		setSize(1000, 700);
 		// 창 크기 조정 불가하도록
@@ -61,27 +61,21 @@ public class AdminClient extends JFrame implements ActionListener, KeyListener {
 		loginLa = new JLabel("로그인기록", JLabel.CENTER);
 		loginLa.setBounds(680, 0, 270, 40);
 		getContentPane().add(loginLa);
+		
 		loginA = new JTextArea();
 		loginA.setBounds(680, 40, 270, 250);
 		getContentPane().add(loginA);
-		// 아래 두줄은 gui 안뜰떄
-		loginA.revalidate();
-		loginA.repaint();
 
-		// 채팅 로그 chatLa chatA
-		chatLa = new JLabel("채팅 히스토리", JLabel.CENTER);
+		// 현재 채팅 내용 chatLa chatA
+		chatLa = new JLabel("현재 채팅내용", JLabel.CENTER);
 		chatLa.setBounds(20, 0, 630, 40);
 		getContentPane().add(chatLa);
 		chatLa.revalidate();
 		chatLa.repaint();
+		
 		chatA = new JTextArea();
-//		chatA.setBounds(20,40,700,250);
-		JScrollPane scroll = new JScrollPane(chatA);
-		scroll.setBounds(20, 40, 630, 250);
-//		getContentPane().add(chatA);
-		getContentPane().add(scroll, BorderLayout.EAST);
-		chatA.revalidate();
-		chatA.repaint();
+		chatA.setBounds(20, 40, 630, 250);
+		getContentPane().add(chatA);
 
 		// 접속 유저 목록 + 강퇴 버튼
 		listLa = new JLabel("접속중", JLabel.LEFT);
@@ -127,17 +121,11 @@ public class AdminClient extends JFrame implements ActionListener, KeyListener {
 		userA.repaint();
 		// 줄바꿈
 
-		// chatA, loginA, userA, listA;
-
-		userA.setLineWrap(true);
-		chatA.setLineWrap(true);
-		loginA.setLineWrap(true);
-		listA.setLineWrap(true);
 		// 수정가능여부
 		userA.setEditable(false);
 		chatA.setEditable(false);
 		loginA.setEditable(false);
-		listA.setEditable(false);
+		listA.setEditable(false); 
 
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {

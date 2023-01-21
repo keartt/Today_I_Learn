@@ -7,14 +7,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 // DB Connection 용 클래스
-public class DB {
+public class DBConnection {
 	public static Connection getConnection() throws ClassNotFoundException {
 		Connection con = null;
 		
 
 		String psql = "jdbc:postgresql://localhost:5432/postgres";
 		String pID = "postgres";
-		String PPw = "8888";
+		String PPw = "0000";
 		
 		try {
 			Class.forName("org.postgresql.Driver");
