@@ -241,7 +241,7 @@ public class DBRun {
 			e.printStackTrace();
 		} finally {
 			try {
-				DBConnection.close(psmt);
+				//DBConnection.close(psmt);
 				DBConnection.close(con);
 			} catch (Exception e2) {
 			}
@@ -262,11 +262,7 @@ public class DBRun {
 
 			rs.last();
 			return rs.getBoolean("login");
-			// 마지막 로그인 상태 확인으로 가야하기에 isLast 사용
-//			if (rs.isLast()) {
-//				return rs.getBoolean("login");
-//			} return false;
-//			
+			// 마지막 로그인 상태 확인으로 가야하기에 Last 사용
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -281,9 +277,6 @@ public class DBRun {
 			}
 		}
 		return false;
-		
-		
-		
 	}
 
 
@@ -330,5 +323,6 @@ public class DBRun {
 			}
 		}
 	}
+	
 	
 }

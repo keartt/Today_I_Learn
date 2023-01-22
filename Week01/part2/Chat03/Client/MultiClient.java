@@ -30,7 +30,7 @@ public class MultiClient extends JFrame implements ActionListener, KeyListener{
 	private JTextField textField;		
 	private JButton darkmodBtn, inputBtn, listBtn, wBtn;		
 	private String ip;					
-	private static String name;
+	private static String id;
 	
 	private Socket socket;				
 	private ObjectInputStream ois;		
@@ -41,7 +41,7 @@ public class MultiClient extends JFrame implements ActionListener, KeyListener{
 		setVisible(true);
 		
 		ip = argIP;
-		name = ariId;
+		id = ariId;
 		
 		// 전체 사이즈 & 틀
 		setTitle("채팅방");
@@ -120,8 +120,8 @@ public class MultiClient extends JFrame implements ActionListener, KeyListener{
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
 				try {
-					oos.writeObject(name);
-					oos.writeObject(name+"#exit");
+					oos.writeObject(id);
+					oos.writeObject(id+"#exit");
 					
 					exit();
 				} catch (IOException ee) {
@@ -155,9 +155,9 @@ public class MultiClient extends JFrame implements ActionListener, KeyListener{
 			} else {
 				try {
 					// DB 에 채팅 내용 저장
-					DBRun.ChatEvery(name, contents);
+					DBRun.ChatEvery(id, contents);
 					// 아이디를 이름으로 바꾸고 + # + 메시지
-					oos.writeObject( name+"#"+contents);
+					oos.writeObject( id+"#"+contents);
 				} catch (IOException ee) {
 					ee.printStackTrace();
 				} catch (ClassNotFoundException e1) {
@@ -172,8 +172,8 @@ public class MultiClient extends JFrame implements ActionListener, KeyListener{
 			
 			try {
 				// 0:보낸사람, 1:귓말, 2:받는사람, 3:내용
-				DBRun.ChatWhisper(name, receiver, contentW);
-				oos.writeObject(name+"#귓말#"+receiver+"#"+contentW);
+				DBRun.ChatWhisper(id, receiver, contentW);
+				oos.writeObject(id+"#귓말#"+receiver+"#"+contentW);
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			} catch (ClassNotFoundException e1) {
@@ -187,8 +187,8 @@ public class MultiClient extends JFrame implements ActionListener, KeyListener{
 				JOptionPane.showMessageDialog(null, "내용을 입력하세요");
 			} else {
 				try {
-					DBRun.ChatEvery(name, contents);
-					oos.writeObject(name+"#"+contents);
+					DBRun.ChatEvery(id, contents);
+					oos.writeObject(id+"#"+contents);
 				} catch (IOException ee) {
 					ee.printStackTrace();
 				} catch (ClassNotFoundException e1) {
@@ -269,7 +269,7 @@ public class MultiClient extends JFrame implements ActionListener, KeyListener{
 	
 	// 종료
 	public void exit() throws ClassNotFoundException{
-//		DBRun.Login_out(LoginStart.getId());
+    	DBRun.Login_out(id);
 		System.exit(0);
 	}
 
@@ -280,8 +280,16 @@ public class MultiClient extends JFrame implements ActionListener, KeyListener{
 		return textField;
 	}
 	public String getName(){
-		return name;
+		try {
+			return DBRun.getName(id);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}return "errpr" ;
 	}
+	public String getId() {
+		return id;
+	}
+	
 	public JTextArea getChat() {
 		return chat;
 	}
@@ -298,7 +306,7 @@ public class MultiClient extends JFrame implements ActionListener, KeyListener{
 			oos = new ObjectOutputStream(socket.getOutputStream());
 			ois = new ObjectInputStream(socket.getInputStream());
 			// 입장 메시지 전송용
-			oos.writeObject(getName()+"#"+"in");
+			oos.writeObject(id+"#"+"in");
 			// 클라이언트 스레드 생성
 			MultiClientThread ct = new MultiClientThread(this);
 			// 스레드 시작
@@ -306,13 +314,13 @@ public class MultiClient extends JFrame implements ActionListener, KeyListener{
 			t.start();
 		}
 		
-		public MultiClient(String name) throws IOException {
+		public MultiClient(String id) throws IOException {
 
 			// 클라이언트 생성
-			MultiClient cc = new MultiClient("127.0.0.1",name);
+			MultiClient cc = new MultiClient("127.0.0.1",id);
 			cc.setVisible(true);
 			cc.init();
-			cc.oos.writeObject(name);
+			cc.oos.writeObject(id);
 			
 		}	
 }

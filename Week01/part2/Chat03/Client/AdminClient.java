@@ -151,9 +151,6 @@ public class AdminClient extends JFrame implements ActionListener, KeyListener {
 	public JTextArea getUserA() {
 		return userA;
 	}
-
-	// JList 컴포넌트에 항목을 추가하기 위해서는 리스트 모델로 접근
-	// 해서 addElement(" String type " ) 을 실행하면 돼
 	public JTextArea getListA() {
 		return listA;
 	}

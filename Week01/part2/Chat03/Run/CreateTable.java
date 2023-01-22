@@ -34,8 +34,8 @@ public class CreateTable {
 			String chatlogTable = "create table chatlog("
 					+ "   id serial primary key,"
 					+ "   sender varchar(50) references users(user_id) not null,"
-					+ "   receiver varchar(50) default 'all',"
-					+ "   contents varchar(200),"
+					+ "   receiver varchar(50) default 'all' not null,"
+					+ "   contents varchar(200) not null,"
 					+ "   created_at timestamp DEFAULT CURRENT_TIMESTAMP not null);";
 			
 			con.createStatement().execute(usersTable);

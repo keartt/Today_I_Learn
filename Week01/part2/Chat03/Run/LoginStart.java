@@ -31,7 +31,7 @@ import Chat03.db.DBRun;
 public class LoginStart extends JFrame implements ActionListener, KeyListener {
 
 	private JLabel laImage,laLogin, laLogin2;
-	static JTextField idF; // 아이디 입력 창
+	JTextField idF; // 아이디 입력 창
 	JPasswordField pwF; // 비번 입력 창
 	
 	JButton loginBtn, b2; // 로그인 버튼 취소 버튼
@@ -112,11 +112,10 @@ public class LoginStart extends JFrame implements ActionListener, KeyListener {
 					if (DBRun.LoginConnectionChk(id)) {
 						JOptionPane.showMessageDialog(null, "중복 로그인 불가");
 					}else {
-						// 로그인 성공 -> 아이디를 이름으로 바꿔서 로그인 진행
-						startChat(DBRun.getName(id));
+						startChat(id);
 						dispose();
 						// 로그인 성공 - 로그인 테이블 insert
-						DBRun.Login_in(LoginStart.getId());
+						DBRun.Login_in(id);
 					}
 				// 비밀번호 오류 메시지
 				}else if (DBRun.loginCheck(id, password)==2) {
@@ -154,14 +153,11 @@ public class LoginStart extends JFrame implements ActionListener, KeyListener {
 		j.start();
 		j.setVisible(true);
 	}
-	public static String getId() {
-		String id = idF.getText();
-		return id;
-	}
 
-	public void startChat(String name) throws IOException {
+
+	public void startChat(String id) throws IOException {
 		// 로그인 버튼 -> 클라이언트 실행
-		MultiClient mc = new MultiClient(name);
+		MultiClient mc = new MultiClient(id);
 	}
 
 	@Override

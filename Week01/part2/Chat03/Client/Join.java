@@ -121,12 +121,12 @@ public class Join extends JFrame implements ActionListener, KeyListener {
 				}
 				else {
 					setVisible(false);
+					// users 테이블에 insert
 					DBRun.join(name, email, user_id, user_pw);
+					// 최초 가입된 아이디 값은 login 상태 false 를 가지도록 해서, 중복 로그인 방지
+					DBRun.Login_out(user_id);
 					new LoginStart().setVisible(true);
 				}
-				// 입력버튼 입력 시 DBRun 클래스로 가서 - static 메소드 조인
-				// 디비에 아이디, 비번, 닉네임 insert
-				
 			} catch (ClassNotFoundException e1) {
 				e1.printStackTrace();
 				System.out.println(" 버튼에서 오류");

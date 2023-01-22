@@ -14,67 +14,58 @@ import Chat03.db.LoginLog;
 import Chat03.db.Users;
 
 public class AdminThread extends Thread {
-	
+
 	private AdminClient admin;
 	private String message;
 	String[] receivedMsg;
 	ArrayList<Users> info;
 	ArrayList<LoginLog> log;
-	
+
 	public AdminThread(AdminClient admin) {
-		this.admin= admin;
+		this.admin = admin;
 	}
-	
+
 	public void run() {
 
 		boolean isStop = false;
-		String name = "";
 
 		// 무한 루프
 		while (!isStop) {
 
 			// 메시지 받아서 split
 			try {
-				
+
 //------------------로그인기록-uesrA-------------------------------------------------------
 				log = DBRun.getLog();
 				admin.getLoginA().setText("");
-				admin.getLoginA().append("아이디  로그인여부  시간"+System.getProperty("line.separator"));
-				admin.getLoginA().append("----".repeat(16)+System.getProperty("line.separator"));
+				admin.getLoginA().append("아이디  로그인여부  시간" + System.getProperty("line.separator"));
+				admin.getLoginA().append("----".repeat(16) + System.getProperty("line.separator"));
 				for (LoginLog l : log) {
 					// 타임스탬프 - 포맷지정
-					String timeF = new SimpleDateFormat( "HH시 mm분 ss초" , Locale.KOREA ).format( l.getIn_out_time() );
+					String timeF = new SimpleDateFormat("HH시 mm분 ss초", Locale.KOREA).format(l.getIn_out_time());
 					String loginCheck;
 					if (l.isLogin()) {
 						loginCheck = "<- 로그인";
-					}else {
+					} else {
 						loginCheck = "->로그아웃";
 					}
-					admin.getLoginA().append( 
-							l.getUser_id()
-							+ loginCheck
-							+" \t "+ timeF +
-							System.getProperty("line.separator"));
+					admin.getLoginA().append(
+							l.getUser_id() + loginCheck + " \t " + timeF + System.getProperty("line.separator"));
 				}
-				
+
 //-------------------회원정보-uesrA-------------------------------------------------------
-				info =  DBRun.getInfo();
+				info = DBRun.getInfo();
 				admin.getUserA().setText("");
-				admin.getUserA().append("순서\t이름\t이메일\t아이디\t비밀번호\t관리자여부\t"+System.getProperty("line.separator"));
-				admin.getUserA().append("----".repeat(40)+System.getProperty("line.separator"));
+				admin.getUserA().append("순서\t이름\t이메일\t아이디\t비밀번호\t관리자여부\t" + System.getProperty("line.separator"));
+				admin.getUserA().append("----".repeat(40) + System.getProperty("line.separator"));
 				for (Users m : info) {
-					admin.getUserA().append( m.getId()
-							+"\t"+ m.getName()
-							+"\t"+ m.getEmail()
-							+"\t"+ m.getUser_id()
-							+"\t"+ m.getUser_pw()
-							+"\t"+ m.isAdmin() +
-							System.getProperty("line.separator"));
+					admin.getUserA().append(m.getId() + "\t" + m.getName() + "\t" + m.getEmail() + "\t" + m.getUser_id()
+							+ "\t" + m.getUser_pw() + "\t" + m.isAdmin() + System.getProperty("line.separator"));
 				}
-				
-				
-//-------------------채팅히스토리-ChatA-------------------------------------------------------
-				
+
+
+//------------------ 접속 정보 및 채팅내용--------------------------------------------------------
+
 				message = (String) admin.getOis().readObject();
 				receivedMsg = message.split("#");
 				// 시간
@@ -117,7 +108,6 @@ public class AdminThread extends Thread {
 				
 			} catch (Exception e) {
 				e.printStackTrace();
-				isStop = true;
 			}
 
 		}

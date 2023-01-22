@@ -32,6 +32,7 @@ public class MultiClientThread extends Thread {
 			try {
 				message = (String) mc.getOis().readObject();
 				receivedMsg = message.split("#");
+				System.out.println();
 				// 시간
 				String formatedNow = LocalTime.now().format(DateTimeFormatter.ofPattern("HH시 mm분 ss초"));
 
@@ -45,10 +46,8 @@ public class MultiClientThread extends Thread {
 				} else {
 					// 종료
 					if (receivedMsg[1].equals("exit")) {
-						// 퇴장 시 로그인 테이블의 login 값 false 로 insert
-						DBRun.Login_out(receivedMsg[0]);
 						// 퇴장 메시지 출력 및 시간 출력
-						if (receivedMsg[0].equals(mc.getName())) {
+						if (receivedMsg[0].equals(mc.getId())) {
 							mc.exit();
 						} else {
 							mc.getChat().append(receivedMsg[0] + "님이 종료 하셨습니다." + "\t"  + "\t"
@@ -58,17 +57,17 @@ public class MultiClientThread extends Thread {
 					}
 					// clear 입력 시 본인 채팅창의 메시지 모두 삭제
 					else if (receivedMsg[1].equals("clear")) {
-						if (receivedMsg[0].equals(mc.getName())) {
+						if (receivedMsg[0].equals(mc.getId())) {
 							mc.getChat().setText("");
 						}
 
 					}
 					// 강퇴기능 kick#아이디
 					else if (receivedMsg[1].equals("kick")) {
-						if (receivedMsg[2].equals(mc.getName())) {
+						if (receivedMsg[2].equals(mc.getId())) {
 							mc.exit();
 						} else {
-							mc.getChat().append(receivedMsg[2] + "님이" + receivedMsg[0] +" 님에 의해 강퇴되었습니다." + "\t" + "\t"
+							mc.getChat().append(receivedMsg[2] + "님이 " + receivedMsg[0] +" 님에 의해 강퇴되었습니다." + "\t" + "\t"
 									+ formatedNow + System.getProperty("line.separator"));
 							mc.getTextField().setCaretPosition(mc.getTextField().getDocument().getLength());
 						}
@@ -88,7 +87,7 @@ public class MultiClientThread extends Thread {
 					}
 					// 귓말
 					else if (receivedMsg[1].equals("귓말")) {
-						if (receivedMsg[2].equals(mc.getName())) {
+						if (receivedMsg[2].equals(mc.getId())) {
 							mc.getChat().append("-->"+receivedMsg[0] + " 님의 귓말  :" + receivedMsg[3]+ "\t"  + "\t"
 									+ formatedNow + System.getProperty("line.separator"));
 							mc.getTextField().setCaretPosition(mc.getTextField().getDocument().getLength());
