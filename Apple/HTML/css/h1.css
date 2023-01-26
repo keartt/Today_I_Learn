@@ -9,11 +9,10 @@
 
 .mainbox{
     width: 900px;
+    background-color: antiquewhite;
 }
 .left{
     width: 70%;
-    height: 200px;
-    background-color: antiquewhite;
     float: left;
 }
 .right{

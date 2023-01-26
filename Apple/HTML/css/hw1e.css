@@ -1,0 +1,18 @@
+.left-content{
+    width: 80%;
+    height: 200px;
+    /* background-color: antiquewhite; */
+    float: left;
+}
+.right-box{
+    width: 20%;
+    height: 200px;
+    /* background-color: aqua; */
+    float: left;
+}
+.container{
+    width: 800px;
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+}
