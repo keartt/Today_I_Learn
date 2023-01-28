@@ -1,0 +1,7 @@
+td, th {
+    border: 1px solid black;
+}
+table{
+    /* 테이블 간격 제거 */
+    border-collapse: collapse;
+}

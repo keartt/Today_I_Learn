@@ -12,7 +12,14 @@
 }
 .container{
     width: 800px;
-    display: block;
     margin-right: auto;
     margin-left: auto;
+}
+.navbar li{
+    display: inline-block;
+    font-size: 20px;
+    text-align: center;
+    background-color: #eee;
+    padding: 10px;
+    border-radius: 5px;
 }
