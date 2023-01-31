@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <style>
+main {
+  margin-top: 10%;
+  margin-left: 40%;
+    width: 300px;
+}
+.button-wrap {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+}
+button {
+    background: #828284;
+    border: 1px solid #454448;
+    font-size: 20px;
+}
+/* nth-child(4n+2): 4번째 요소마다 스타일을 적용하는데 처음에만 두번째에 적용 */
+button:nth-child(5n+3), button:last-child  {
+    background-color: orange;
+}
+button:hover {
+    opacity: .5;
+}
+/*ac버튼 크기 조정*/
+.ac {
+  /*4등분하여 나온 5개의 선 중에서 첫번째 선부터 4번째 선까지 지정*/
+  grid-column: 1/4;
+  background: #6A6A6C;
+}
+.equals{
+  grid-column: 4/6;
+  background: #6A6A6C;
+}
+* {
+    box-sizing: border-box;
+    color: white;
+    border-radius: 12px;
+    margin: 1PX;
+}
+input, button {
+    height: 35px;
+    outline: none;
+}
+input {
+    width: 100%;
+    text-align: right;
+    border: none;
+    background: #5B5B5D;
+    padding-right: 1rem;
+    font-size: 1rem;
+}
+    </style>
+</head>
+<body style="background-color: black;">
+    <main>
+        <input type="text" disabled>
+        <div class="button-wrap">
+            <button data-type="ac" class="ac">AC</button>
+            <button data-type="operator">x^y</button>
+            <button data-type="operator">&divide;</button>
+            <button>7</button>
+            <button>8</button>
+            <button>9</button>
+            <button data-type="operator">sin</button>
+            <button data-type="operator">&times;</button>
+            <button>4</button>
+            <button>5</button>
+            <button>6</button>
+            <button data-type="operator">cos</button>
+            <button data-type="operator">-</button>
+            <button>1</button>
+            <button>2</button>
+            <button>3</button>
+            <button data-type="operator">tan</button>
+            <button data-type="operator">+</button>
+            <button >+/-</button>
+            <button class="zero">0</button>
+            <button>.</button>
+            <button data-type="equals" class="equals">=</button>
+        </div>
+    </main>
+    <script src="4-2.js"></script>
+</body>
+</html>
