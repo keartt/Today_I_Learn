@@ -1,5 +1,0 @@
-INDEX VERSION 1.4+C:\Users\VivoBook\Desktop\GITHUB\all4land_junior\All4_Back\JSP\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
-447430368.index
-1294412682.index
-421659404.index
-3026425180.index

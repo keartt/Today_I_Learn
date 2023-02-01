@@ -1,5 +1,0 @@
-INDEX VERSION 1.131
-C:\Users\VivoBook\Desktop\All4_Back\JSP\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\752036674.index
-\ServletTest\src\main\java
-C:\Users\VivoBook\Desktop\All4_Back\JSP\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\1135988365.index
-\ServletTest\src\main\java
