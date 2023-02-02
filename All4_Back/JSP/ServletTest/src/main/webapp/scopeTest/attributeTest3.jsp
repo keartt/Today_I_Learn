@@ -19,11 +19,6 @@ table, tr, td {
 
 	String name = (String) application.getAttribute("name");
 	String id = (String) application.getAttribute("id");
-	
-	String email=(String)session.getAttribute("email");
-	String address=(String)session.getAttribute("address");
-	String tel=(String)session.getAttribute("tel");		
-
 	%>
 	<h3>어플리케이션과 세션에서 불러오기</h3>
 	<table>
@@ -41,18 +36,21 @@ table, tr, td {
 		<tr>
 			<td colspan="2">세션영역</td>
 		</tr>
+		<%
+		Enumeration e = session.getAttributeNames();
+		while (e.hasMoreElements()) {
+			String attributeName = (String) e.nextElement();
+			String attributeValue = (String) session.getAttribute(attributeName);
+		%>
+
 		<tr>
-			<td>이메일</td>
-			<td><%=email%></td>
+			<td><%=attributeName%></td>
+			<td><%=attributeValue%></td>
 		</tr>
-		<tr>
-			<td>주소</td>
-			<td><%=address%></td>
-		</tr>
-		<tr>
-			<td>전화번호</td>
-			<td><%=tel%></td>
-		</tr>
+
+		<%
+		}
+		%>
 
 	</table>
 </body>
