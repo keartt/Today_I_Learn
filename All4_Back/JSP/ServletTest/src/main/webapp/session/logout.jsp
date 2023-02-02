@@ -7,6 +7,16 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+	<script>
+	
+	window.onload = function () {
+		 <% 
+		 if( !session.isNew()) {
+			session.invalidate();
+		}	 
+		 %>
+		 location.href = 'session.jsp'	}	// 세션 종료 후 반환
+	
+</script>
 </body>
 </html>
