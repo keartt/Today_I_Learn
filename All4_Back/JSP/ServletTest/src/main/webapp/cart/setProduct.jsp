@@ -47,10 +47,10 @@ response.setDateHeader("Expires", 0L);
 	}
 	%>
 	
-	<br><h1 style="text-align:center"><%=name%> 님 안녕하세요 </h1><br><hr>
+	<br><h1 style="text-align:center"><%=name%> 님 안녕하세요 </h1><br>
 
 		<div
-			style="width: 300px; height: 300px; position: absolute; left: 50%; top: 50%; margin-top: -150px;">
+			style="width: 300px; height: 300px; position: absolute; left: 50%; top: 50%; margin-top: -200px;">
 			<form action="../cart/add.jsp" method="post" >
 				<select class="select" aria-label="Default select example"
 					name="product">
@@ -59,10 +59,10 @@ response.setDateHeader("Expires", 0L);
 					<option value="바나나">바나나</option>
 					<option value="귤">귤</option>
 				</select>
-				<button type="submit">추가하기</button>
+  						<button type="submit" class="btn btn-success">추가</button><br>
 			</form>
-			<button type="button" class="btn btn-secondary btn-lg"
-			onclick="location.href='../cart/checkOut.jsp' " >장바구니 보기</button>
+			  			<button type="button" class="btn btn-primary" onclick="location.href='../cart/checkOut.jsp' ">장바구니</button>
+			
 		</div>
 
 

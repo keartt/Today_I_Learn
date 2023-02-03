@@ -76,15 +76,16 @@
 		
 		<li
 			class="list-group-item d-flex justify-content-between align-items-center">
-			<%=i %> <span class="badge bg-primary rounded-pill"> <%= Collections.frequency(arr, i) %></span>
-			<button type="button" class="btn btn-danger" onclick="location.href='cart/delete.jsp' ">하나 빼기 </button>
+			<%=i %>&nbsp&nbsp&nbsp <span class="badge bg-primary rounded-pill"> <%= Collections.frequency(arr, i) %></span>
 		</li>
+		<
 		<% } 
 		}%>
+		
 	</ul>
-	<a class="btn btn-primary" href="../cart/setProduct.jsp" role="button">더 담기</a>
-	</div>	
-	
+	</div>
+		
+	<a class="btn btn-primary" href="../cart/setProduct.jsp"  style="margin-left:45%; margin-top:30px;">&nbsp&nbsp더 담기 &nbsp&nbsp</a>
 
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
