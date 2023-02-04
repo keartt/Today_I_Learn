@@ -1,26 +1,34 @@
 <%@page import="java.util.ArrayList"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@page import="java.lang.reflect.Array"%>
+<%@ page language="java" contentType="text/html; charset=EUC-KR"
+	pageEncoding="EUC-KR"%>
 <!DOCTYPE html>
-
 <html>
 <head>
 <meta charset="EUC-KR">
-
 <title>Insert title here</title>
 </head>
-<% request.setCharacterEncoding("UTF-8"); %>
-<body>	
-	<% 
-	ArrayList <String> del = (ArrayList)session.getAttribute("product_List");
-	
-	//ì„¸ì…˜ì— ë‹´ê¸´ ì–´ë ˆì´ë¦¬ìŠ¤íŠ¸ ë˜ëŠ” set ì„ ì¼ë‹¨ ê°€ì ¸ì™€
-	//ê°€ì ¸ì˜¨ ë‹¤ìŒì— ì‚­ì œë¥¼ í•˜ë©´ ë˜ëŠ”ë°?
-	
-			session.removeAttribute("");
-	
+<body>
+	<%
+	request.setCharacterEncoding("UTF-8");
 	%>
-	
 
+	<%
+	String car = request.getParameter("car");
+
+	ArrayList<String> list = (ArrayList) session.getAttribute("list");
+
+	if (car == null) {
+		// ¸®½ºÆ® ¼¼¼Ç »èÁ¦ 
+		session.removeAttribute("list");
+		out.println("<script>location.href='checkOut.jsp'</script>");
+	} else {
+		// ¹Ş¾Æ¿Â °ª¿¡ ´ëÀÀÇÏ´Â arrayList °ª ÇÏ³ª Áö¿ì°í ³ª¼­
+		list.remove(car);
+		// Áö¿î ¸®½ºÆ®¸¦ ´Ù½Ã ¼¼¼Ç¿¡ »ğÀÔ
+		session.setAttribute("list", list);
+		out.println("<script>location.href='checkOut.jsp'</script>");
+	}
+	%>
 </body>
 </html>
