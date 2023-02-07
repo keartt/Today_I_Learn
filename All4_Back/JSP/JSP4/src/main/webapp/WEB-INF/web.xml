@@ -19,7 +19,7 @@
         <servlet-name>BoardFrontController</servlet-name>
         <servlet-class>net.board.action.BoardFrontController</servlet-class>
     </servlet>
-    <!-- 파일이 .bo일 때 BoardFrontController로 간다 -->
+    <!-- .bo일 때 BoardFrontController로 간다 -->
     <servlet-mapping>
         <servlet-name>BoardFrontController</servlet-name>
         <url-pattern>*.bo</url-pattern>
