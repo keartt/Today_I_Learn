@@ -6,6 +6,7 @@
 <%
 	//파라미터 받아오기
 	request.setCharacterEncoding("EUC-KR");
+
 	String id = request.getParameter("id");
 	String pw = request.getParameter("pw");
 	int result = 0;
