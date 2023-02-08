@@ -61,6 +61,7 @@ public class BoardFrontController extends javax.servlet.http.HttpServlet impleme
 				e.printStackTrace();
 			}
 
+			
 			// 수정 가능한지 체크 가능하면 fo
 		} else if (command.equals("/BoardModify.bo")) {
 			action = new BoardModifyView();

@@ -77,7 +77,7 @@
 			<div align="center"><%=bl.getBOARD_NAME() %></div>
 		</td>
 		<td style="font-family:Tahoma;font-size:10pt;">
-			<div align="center"><%=bl.getBOARD_DATE() %></div>
+			<div align="center"><%=bl.getBoard_date() %></div>
 		</td>	
 		<td style="font-family:Tahoma;font-size:10pt;">
 			<div align="center"><%=bl.getBOARD_READCOUNT() %></div>
