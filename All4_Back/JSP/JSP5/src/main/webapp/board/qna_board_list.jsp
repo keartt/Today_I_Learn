@@ -113,5 +113,6 @@
 		</td>
 	</tr>
 </table>
+<button onclick = "location.href='./logout.me'"> 로그아웃</button>s
 </body>
 </html>

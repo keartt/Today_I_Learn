@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!--   <bean id="family" class="com.all.spring03.Family">
+		<constructor-arg>
+			<value>홍아빠</value>
+		</constructor-arg>
+		<constructor-arg>
+			<value>홍엄마</value>
+		</constructor-arg>
+		<property name="sisterName" value="홍누나" />
+		<property name="brotherName" value="홍오빠" />
+	</bean> -->
+	
+	<bean id="family" class="com.all.spring03.Family"
+	 c:papaName = "홍아빠" c:mamiName="홍엄마"
+	 p:sisterName="홍누나" p:brotherName="홍오빠"
+	>
+	
+	
+	</bean>
+</beans>

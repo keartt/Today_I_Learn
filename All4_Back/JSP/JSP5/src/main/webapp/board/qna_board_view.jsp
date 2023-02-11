@@ -81,5 +81,6 @@
 	</tr>
 </table>
 <!-- 게시판 수정 -->
+<button onclick = "location.href='./logout.me'"> 로그아웃</button>
 </body>
 </html>

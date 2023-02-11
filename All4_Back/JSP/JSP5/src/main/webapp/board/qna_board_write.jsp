@@ -19,11 +19,11 @@
 	</tr>
 	<tr>
 		<td style="font-family:돋음; font-size:12" height="16">
-			<div align="center">글쓴이</div>
+			<div align="center">이름</div>
 		</td>
 		<td>
 			<input name="BOARD_NAME" type="text" size="10" maxlength="10" 
-				value=""/>
+				value="<%=session.getAttribute("id") %>"/>
 		</td>
 	</tr>
 	<tr>

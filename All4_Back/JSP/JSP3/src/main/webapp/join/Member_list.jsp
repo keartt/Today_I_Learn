@@ -2,33 +2,7 @@
     pageEncoding="EUC-KR"%>
 
 <%@ page import="java.util.*"%>
-<%@ page import="java.sql.*" %>
-<%@ page import="javax.sql.*" %>
 <%@ page import="javax.naming.*" %>
-<%
-	Connection conn = null;
-	String sql="SELECT * FROM user_info"; //쿼리문
-	ArrayList<String> arr = new ArrayList<String>(); //결과 담을 변수
-
-	try{
-		Context init = new InitialContext();
-		DataSource ds = (DataSource) init.lookup("java:comp/env/jdbc/postgreSQL");
-		conn = ds.getConnection();
-		
-		PreparedStatement pstmt = conn.prepareStatement(sql);
-		ResultSet rs = pstmt.executeQuery();
-		
-		while(rs.next()){			
-			arr.add(rs.getString(1));
-		}
-		
-		//어드민은 리스트에서 제거
-		arr.remove("admin");
-		
-	} catch(Exception e){
-		e.printStackTrace();
-	}
-%>
 
 
 <!DOCTYPE html>
@@ -45,7 +19,10 @@
 			cellpadding="5" cellspacing="0">
 			
 			
-			<%  for(String id : arr){ %>
+			<%  
+			
+			List<String> arr = (List) request.getAttribute("memberList");
+			for(String id : arr){ %>
 			
 			<tr align="center">
 				<td align="center" bgcolor="#eee"

@@ -22,6 +22,18 @@
         <url-pattern>*.bo</url-pattern>
     </servlet-mapping>
   
+        <!--  회원가입 / 유저테이블 관련 컨트롤러 연동  서블릿 매핑 -->
+    <servlet>
+        <servlet-name>MemberFrontController</servlet-name>
+        <servlet-class>net.member.action.MemberFrontController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>MemberFrontController</servlet-name>
+        <url-pattern>*.me</url-pattern>
+    </servlet-mapping>
+  
+  
+  
       <resource-ref>
   	<description>Connection</description>
   	<res-ref-name>jdbc/postgreSQL</res-ref-name>
