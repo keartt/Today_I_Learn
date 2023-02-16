@@ -26,4 +26,17 @@
     <!--
     <Manager pathname="" />
     -->
+    
+    
+    <Resource name ="jdbc/postgreSQL"
+	auth="Container"
+	driverClassName="org.postgresql.Driver"
+	type="javax.sql.DataSource"
+	url="jdbc:postgresql://localhost:5432/postgres"
+	factory = "org.apache.tomcat.dbcp.dbcp2.BasicDataSourceFactory"
+	username="postgres"
+	password="1234"
+	maxActive="500"
+	maxIdle="100"
+/>
 </Context>
