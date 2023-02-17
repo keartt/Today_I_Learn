@@ -97,6 +97,9 @@ public class BDao {
 
 	// 조회
 	public BDto getBDto(int id) {
+		// 조회수 증가
+		upHit(id); //조회수 올리는것 
+		
 		System.out.println("조회 dao 진입");
 		BDto bDto = new BDto();
 		try {
@@ -163,7 +166,8 @@ public class BDao {
 		}
 
 	}
-
+	
+	// 삭제 
 	public void delete(String bId) {
 		System.out.println("삭제 dao 진입");
 		try {
@@ -223,11 +227,10 @@ public class BDao {
 		return bDto;
 	}
 	
+	// 답변 insert
 	public void reply(String bId, String bName, String bTitle, String bContent, String bGroup, String bStep, String bIndent) {
 		replyShape(bGroup, bStep);
 		
-		Connection connection = null;
-		PreparedStatement preparedStatement = null;
 		
 		try {
 			connection = dataSource.getConnection();
@@ -255,6 +258,7 @@ public class BDao {
 		
 	}
 	
+	// 답변 들여쓰기
 	private void replyShape( String strGroup, String strStep) {
 		try {
 			connection = dataSource.getConnection();
@@ -283,6 +287,30 @@ public class BDao {
 		}
 	}
 	
+	//조회수
+	private void upHit(int id) {
+
+		try {
+			connection = dataSource.getConnection();
+			String sql = "update mvc_board set bHit = bHit + 1 where bId= ? ";
+			preparedStatement = connection.prepareStatement(sql);
+			preparedStatement.setInt(1, id);
+			preparedStatement.executeUpdate();  
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+				if (connection != null)
+					connection.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+
+	}
 	
 
 
