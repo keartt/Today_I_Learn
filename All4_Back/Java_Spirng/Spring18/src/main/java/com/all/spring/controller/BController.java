@@ -1,6 +1,7 @@
 package com.all.spring.controller;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -44,7 +45,8 @@ public class BController {
 	}
 	// 글 작성 페이지 이동
 	@RequestMapping("/write_view")
-	public String write_view () {
+	public String write_view (Model model, HttpSession session) {
+		model.addAttribute("user_id", session.getAttribute("user_id"));
 		return  "board/write_view";
 	}
 	// 글 작성 액션
@@ -68,39 +70,41 @@ public class BController {
 	
 	// 글 수정 
 	@RequestMapping("/modify")
-	public String modify (Model model, HttpServletRequest request) {
+	public String modify (Model model, HttpServletRequest request, HttpSession session) {
 		model.addAttribute("request",request);
 		command = new BModifyCommand();
 		command.execute(model);
 		
-		return "redirect:list";
+		return "member/alert";
 	}
 	
 	// 글 삭제
 	@RequestMapping("/delete")
-	public String delete (Model model, HttpServletRequest request) {
+	public String delete (Model model, HttpServletRequest request, HttpSession session) {
 		model.addAttribute("request",request);
 		command = new BDeleteCommand();
 		command.execute(model);
 		
-		return "redirect:list";
+		return "member/alert";
 	}
 	
 	// 글 답변
 	@RequestMapping("/reply_view")
-	public String reply_view(HttpServletRequest request,Model model) {
-		System.out.println("reply_view()");
+	public String reply_view(HttpServletRequest request,Model model, HttpSession session) {
 		model.addAttribute("request",request);
 		command = new BReplyViewCommand();
 		command.execute(model);
+		
+		model.addAttribute("user_id", session.getAttribute("user_id"));
+		
 		return "board/reply_view";
 	}
 	@RequestMapping("/reply")
 	public String reply(HttpServletRequest request, Model model) {
-		System.out.println("reply()");
 		model.addAttribute("request", request);		
 		command = new BReplyCommand();
 		command.execute(model);
+		
 		return "redirect:list";
 	}
 }

@@ -14,7 +14,7 @@
 		<table width="500" cellpadding="0" cellspacing="0" border="1">
 			<tr>
 				<td>번호</td>
-				<td>이름</td>
+				<td>아이디</td>
 				<td>제목</td>
 				<td>날짜</td>
 				<td>히트</td>
@@ -35,7 +35,7 @@
 		</table>
 		<hr>
 		<center>
-			<button onclick="logout">로그아웃</button>
+			<button onclick="location.href='/logout'">로그아웃</button>
 		</center>
 	</center>
 </body>

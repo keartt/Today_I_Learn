@@ -13,12 +13,12 @@
 		<table width="300px" height="100px" border="1" align="center"
 			cellpadding="5" cellspacing="0">
 			<tr align="center">
-				<td align="center" bgcolor="#eee"
+				<td align="center" bgcolor="blue"
 					style="font-weight: bold; font-size: 18px; color:white;">아이디</td>
 				<td><input type="text" name="user_id"></td>
 			</tr>
 			<tr align="center">
-				<td align="center" bgcolor="#eee"
+				<td align="center" bgcolor="blue"
 					style="font-weight: bold; font-size: 18px; color:white;">비밀번호</td>
 				<td><input type="password" name="user_pw"></td>
 			</tr>

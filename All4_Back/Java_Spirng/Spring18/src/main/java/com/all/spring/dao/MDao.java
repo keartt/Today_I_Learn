@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.core.PreparedStatementSetter;
 
 import com.all.spring.util.Constant;
 import com.all.spring.dto.BDto;
@@ -55,10 +56,31 @@ public class MDao {
 	      return template.queryForObject(query, new BeanPropertyRowMapper<MDto>(MDto.class));
 	}
 	
-	// 회원 목록 불러올거야 
+	// 회원 목록 불러올거야 , admin 만 빼고 
 	public ArrayList<MDto> list() {
-		String query = "select * from mvc_member";
+		String query = "select * from mvc_member where NOT user_id ='admin' ";
 	      return (ArrayList<MDto>) template.query(query, new BeanPropertyRowMapper<MDto>(MDto.class));
+	}
+	
+	// 회원 상세 보기 할거야 
+	public MDto memberView(String user_id) {
+		
+		String query = "select * from mvc_member where user_id = '" + user_id +"'";
+	    return template.queryForObject(query, new BeanPropertyRowMapper<MDto>(MDto.class));
+	      
+	}
+	
+	// 회원 지워버리기 
+	public void delete(final String user_id) {
+		 String query = "delete from mvc_member where user_id= ?";
+
+		 this.template.update(query, new PreparedStatementSetter() {
+	         
+	         @Override
+	         public void setValues(PreparedStatement ps) throws SQLException {
+	            ps.setString(1, user_id);
+	         }
+	      });
 	}
 
 }

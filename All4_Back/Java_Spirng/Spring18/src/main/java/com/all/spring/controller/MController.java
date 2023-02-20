@@ -1,6 +1,7 @@
 package com.all.spring.controller;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -9,7 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.all.spring.command.member.MCommand;
+import com.all.spring.command.Command;
 import com.all.spring.command.member.MDeleteCommand;
 import com.all.spring.command.member.MJoinCommand;
 import com.all.spring.command.member.MListCommad;
@@ -19,7 +20,7 @@ import com.all.spring.util.Constant;
 
 @Controller
 public class MController {
-	MCommand command = null;
+	Command command = null;
 
 	public JdbcTemplate template;
 
@@ -28,7 +29,17 @@ public class MController {
 		this.template = template;
 		Constant.template = this.template;
 	}
-
+//	0. 로그아웃
+	@RequestMapping("/logout")
+	public String logout(Model model,HttpSession session) {
+		session.invalidate();
+		model.addAttribute("msg", "잘가요");
+        model.addAttribute("url", "/login");
+		
+		return "member/alert";
+	}
+	
+	
 //	1. 로그인
 	// 1-1. /로그인 요청 -> 로그인 페이지로
 	@RequestMapping("/login")
@@ -74,23 +85,26 @@ public class MController {
 	}
 
 //	//	3-2 /관리자 	회원정보 보기
-//	@RequestMapping(value = "/join", method = RequestMethod.POST)
-//	public String memberView(Model model, HttpServletRequest request) {
-//		model.addAttribute("request", request);
-//		command = new MViewCommand();
-//		command.execute(model);
-//		
-//		return " ";
-//	}
+	@RequestMapping("/member_view")
+	public String memberView(Model model, HttpServletRequest request) {
+		model.addAttribute("request", request);
+		command = new MViewCommand();
+		command.execute(model);
+		
+		return "member/Member_info";
+	}
 
 //	//	3-3 /관리자	회원정보 삭제 
-//	@RequestMapping(value = "/join", method = RequestMethod.POST)
-//	public String memberDelete(Model model, HttpServletRequest request) {
-//		model.addAttribute("request", request);
-//		command = new MDeleteCommand();
-//		command.execute(model);
-//		
-//		return " ";
-//	}
+	@RequestMapping("member_delete")
+	public String memberDelete(Model model, HttpServletRequest request) {
+		model.addAttribute("request", request);
+		command = new MDeleteCommand();
+		command.execute(model);
+		
+		model.addAttribute("msg", request.getParameter("user_id") + " 삭제");
+        model.addAttribute("url", "/admin");
+		
+		return "member/alert";
+	}
 
 }

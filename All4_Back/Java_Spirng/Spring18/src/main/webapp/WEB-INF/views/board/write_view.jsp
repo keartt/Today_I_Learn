@@ -14,8 +14,8 @@
 	<table width="500" cellpadding="0" cellspacing="0" border="1">
 		<form action="write" method="post">
 			<tr>
-				<td> 이름 </td>
-				<td> <input type="text" name="bName" size = "50"> </td>
+				<td> 아이디 </td>
+				<td> <input type="text" name="bName" size = "50" value = "${user_id}" readonly> </td>
 			</tr>
 			<tr>
 				<td> 제목 </td>
@@ -32,7 +32,7 @@
 	</table>
 			<hr>
 		<center>
-			<button onclick="logout">로그아웃</button>
+			<button onclick="location.href='/logout'">로그아웃</button>
 		</center>
 	</center>
 </body>

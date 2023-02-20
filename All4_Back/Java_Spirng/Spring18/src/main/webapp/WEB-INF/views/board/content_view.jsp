@@ -22,9 +22,9 @@
 				<td>${content_view.bHit}</td>
 			</tr>
 			<tr>
-				<td>이름</td>
+				<td>아이디</td>
 				<td><input type="text" name="bName"
-					value="${content_view.bName}"></td>
+					value="${content_view.bName}" readonly></td>
 			</tr>
 			<tr>
 				<td>제목</td>
@@ -38,7 +38,7 @@
 			<tr>
 				<td colspan="2"><input type="submit" value="수정">
 					&nbsp;&nbsp; <a href="list">목록보기</a> &nbsp;&nbsp; <a
-					href="delete?bId=${content_view.bId}">삭제</a> &nbsp;&nbsp; <a
+					href="delete?bId=${content_view.bId}&bName=${content_view.bName}">삭제</a> &nbsp;&nbsp; <a
 					href="reply_view?bId=${content_view.bId}">답변</a></td>
 			</tr>
 		</form>
@@ -46,7 +46,7 @@
 
 	<hr>
 	<center>
-		<button onclick="logout">로그아웃</button>
+		<button onclick="location.href='/logout'">로그아웃</button>
 	</center>
 	</center>
 </body>

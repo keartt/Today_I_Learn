@@ -7,9 +7,10 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.ui.Model;
 
+import com.all.spring.command.Command;
 import com.all.spring.dao.MDao;
 
-public class MJoinCommand implements MCommand {
+public class MJoinCommand implements Command {
 
 	@Override
 	public void execute(Model model) {

@@ -25,8 +25,8 @@
 				<td> ${reply_view.bHit} </td>
 			</tr>
 			<tr>
-				<td> 이름 </td>
-				<td> <input type="text" name="bName" value="${reply_view.bName}"></td>
+				<td> 아이디 </td>
+				<td> <input type="text" name="bName" value="${user_id}" readonly></td>
 			</tr>
 			<tr>
 				<td> 제목 </td>
@@ -43,7 +43,7 @@
 	</table>
 			<hr>
 		<center>
-			<button onclick="logout">로그아웃</button>
+			<button onclick="location.href='/logout'">로그아웃</button>
 		</center>
 	</center>
 </body>
