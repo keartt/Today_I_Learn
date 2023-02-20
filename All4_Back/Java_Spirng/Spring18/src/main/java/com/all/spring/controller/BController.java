@@ -37,21 +37,54 @@ public class BController {
 	
 	// 글 리스트 페이지
 	@RequestMapping("/list")
-	public String list(Model model){
+	public String list(Model model,HttpSession session){
+		
+		// 로그인 안하면 로그인 페이지로
+		String userId = (String) session.getAttribute("user_id");
+	    if (userId == null) {
+	    	// alert 함께
+	    	model.addAttribute("msg", "로그인 하셈");
+            model.addAttribute("url", "/login");
+            
+            return "member/alert"; 
+	    }
+		
 		command = new BListCommand();
 		command.execute(model);
 		
 		return "board/list";
 	}
+	
 	// 글 작성 페이지 이동
 	@RequestMapping("/write_view")
-	public String write_view (Model model, HttpSession session) {
+	public String write_view (Model model,HttpSession session){
+		
+		// 로그인 안하면 로그인 페이지로
+		String userId = (String) session.getAttribute("user_id");
+	    if (userId == null) {
+	    	// alert 함께
+	    	model.addAttribute("msg", "로그인 하셈");
+            model.addAttribute("url", "/login");
+            
+            return "member/alert";}
+	    
 		model.addAttribute("user_id", session.getAttribute("user_id"));
 		return  "board/write_view";
 	}
+	
 	// 글 작성 액션
 	@RequestMapping("/write")
-	public String wirte(Model model, HttpServletRequest request) {
+	public String wirte(Model model, HttpServletRequest request, HttpSession session){
+		
+		// 로그인 안하면 로그인 페이지로
+		String userId = (String) session.getAttribute("user_id");
+	    if (userId == null) {
+	    	// alert 함께
+	    	model.addAttribute("msg", "로그인 하셈");
+            model.addAttribute("url", "/login");
+            
+            return "member/alert";}
+	    
 		model.addAttribute("request", request);
 		command = new BWriteCommand();
 		command.execute(model);
@@ -60,7 +93,17 @@ public class BController {
 	}
 	// 글 상세 내용 페이지
 	@RequestMapping("/content_view")
-	public String content_view (Model model, HttpServletRequest request) {
+	public String content_view (Model model, HttpServletRequest request, HttpSession session){
+		
+		// 로그인 안하면 로그인 페이지로
+		String userId = (String) session.getAttribute("user_id");
+	    if (userId == null) {
+	    	// alert 함께
+	    	model.addAttribute("msg", "로그인 하셈");
+            model.addAttribute("url", "/login");
+            
+            return "member/alert";}
+	    
 		model.addAttribute("request",request);
 		command = new BContentCommand();
 		command.execute(model);
@@ -70,7 +113,17 @@ public class BController {
 	
 	// 글 수정 
 	@RequestMapping("/modify")
-	public String modify (Model model, HttpServletRequest request, HttpSession session) {
+	public String modify (Model model, HttpServletRequest request, HttpSession session){
+		
+		// 로그인 안하면 로그인 페이지로
+		String userId = (String) session.getAttribute("user_id");
+	    if (userId == null) {
+	    	// alert 함께
+	    	model.addAttribute("msg", "로그인 하셈");
+            model.addAttribute("url", "/login");
+            
+            return "member/alert";}
+	    
 		model.addAttribute("request",request);
 		command = new BModifyCommand();
 		command.execute(model);
@@ -80,7 +133,17 @@ public class BController {
 	
 	// 글 삭제
 	@RequestMapping("/delete")
-	public String delete (Model model, HttpServletRequest request, HttpSession session) {
+	public String delete (Model model, HttpServletRequest request, HttpSession session){
+		
+		// 로그인 안하면 로그인 페이지로
+		String userId = (String) session.getAttribute("user_id");
+	    if (userId == null) {
+	    	// alert 함께
+	    	model.addAttribute("msg", "로그인 하셈");
+            model.addAttribute("url", "/login");
+            
+            return "member/alert";}
+	    
 		model.addAttribute("request",request);
 		command = new BDeleteCommand();
 		command.execute(model);
@@ -90,7 +153,17 @@ public class BController {
 	
 	// 글 답변
 	@RequestMapping("/reply_view")
-	public String reply_view(HttpServletRequest request,Model model, HttpSession session) {
+	public String reply_view(HttpServletRequest request,Model model, HttpSession session){
+		
+		// 로그인 안하면 로그인 페이지로
+		String userId = (String) session.getAttribute("user_id");
+	    if (userId == null) {
+	    	// alert 함께
+	    	model.addAttribute("msg", "로그인 하셈");
+            model.addAttribute("url", "/login");
+            
+            return "member/alert";}
+	    
 		model.addAttribute("request",request);
 		command = new BReplyViewCommand();
 		command.execute(model);
@@ -100,7 +173,17 @@ public class BController {
 		return "board/reply_view";
 	}
 	@RequestMapping("/reply")
-	public String reply(HttpServletRequest request, Model model) {
+	public String reply(HttpServletRequest request, Model model, HttpSession session){
+		
+		// 로그인 안하면 로그인 페이지로
+		String userId = (String) session.getAttribute("user_id");
+	    if (userId == null) {
+	    	// alert 함께
+	    	model.addAttribute("msg", "로그인 하셈");
+            model.addAttribute("url", "/login");
+            
+            return "member/alert";}
+	    
 		model.addAttribute("request", request);		
 		command = new BReplyCommand();
 		command.execute(model);

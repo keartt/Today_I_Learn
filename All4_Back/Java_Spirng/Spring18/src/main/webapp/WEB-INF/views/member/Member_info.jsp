@@ -18,7 +18,7 @@
 			cellpadding="5" cellspacing="0">
 			<tr align="center">
 				<td align="center" bgcolor="#eee"
-					style="font-weight: bold; font-size: 18px" width="100px">아이디</td>
+					style="font-weight: bold; font-size: 18px" width="30%">아이디</td>
 				<td>${member.user_id}</td>
 			</tr>
 			<tr align="center">
@@ -34,12 +34,12 @@
 			<tr align="center">
 				<td align="center" bgcolor="#eee"
 					style="font-weight: bold; font-size: 18px">이름</td>
-				<td>${member.name}</td>
+				<td>${member.user_name}</td>
 			</tr>
 			<tr align="center">
 				<td align="center" bgcolor="#eee"
 					style="font-weight: bold; font-size: 18px">생년월일</td>
-				<td>${member.year} - ${member.month}  -  ${member.day} </td>
+				<td>${member.user_year} - ${member.user_month}  -  ${member.user_day} </td>
 			</tr>
 			<tr align="center">
 				<td align="center" bgcolor="#eee"

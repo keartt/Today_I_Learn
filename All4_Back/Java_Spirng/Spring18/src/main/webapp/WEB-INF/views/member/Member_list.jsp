@@ -37,7 +37,7 @@
 		</table>
 		<hr>
 		<center>
-			<button onclick="/logout">로그아웃</button>
+			<button onclick="location.href='/logout'">로그아웃</button>
 		</center>
 	</center>
 </body>

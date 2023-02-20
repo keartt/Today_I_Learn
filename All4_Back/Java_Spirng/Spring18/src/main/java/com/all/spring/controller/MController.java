@@ -77,7 +77,17 @@ public class MController {
 ////	3. 관리자 페이지
 //	//	3-1 /관리자	회원리스트 보기
 	@RequestMapping(value = "/admin") // 얘는 post 아니고 get 임 까먹지 말기
-	public String memberList(Model model, HttpServletRequest request) {
+	public String memberList(Model model, HttpServletRequest request, HttpSession session){
+		
+		// 로그인 안하면 로그인 페이지로
+		String userId = (String) session.getAttribute("user_id");
+	    if (userId == null) {
+	    	// alert 함께
+	    	model.addAttribute("msg", "로그인 하셈");
+            model.addAttribute("url", "/login");
+            
+            return "member/alert";}
+	    
 		model.addAttribute("request", request);
 		command = new MListCommad();
 		command.execute(model);
@@ -86,7 +96,17 @@ public class MController {
 
 //	//	3-2 /관리자 	회원정보 보기
 	@RequestMapping("/member_view")
-	public String memberView(Model model, HttpServletRequest request) {
+	public String memberView(Model model, HttpServletRequest request, HttpSession session){
+		
+		// 로그인 안하면 로그인 페이지로
+		String userId = (String) session.getAttribute("user_id");
+	    if (userId == null) {
+	    	// alert 함께
+	    	model.addAttribute("msg", "로그인 하셈");
+            model.addAttribute("url", "/login");
+            
+            return "member/alert";}
+	    
 		model.addAttribute("request", request);
 		command = new MViewCommand();
 		command.execute(model);
@@ -96,7 +116,17 @@ public class MController {
 
 //	//	3-3 /관리자	회원정보 삭제 
 	@RequestMapping("member_delete")
-	public String memberDelete(Model model, HttpServletRequest request) {
+	public String memberDelete(Model model, HttpServletRequest request, HttpSession session){
+		
+		// 로그인 안하면 로그인 페이지로
+		String userId = (String) session.getAttribute("user_id");
+	    if (userId == null) {
+	    	// alert 함께
+	    	model.addAttribute("msg", "로그인 하셈");
+            model.addAttribute("url", "/login");
+            
+            return "member/alert";}
+	    
 		model.addAttribute("request", request);
 		command = new MDeleteCommand();
 		command.execute(model);
