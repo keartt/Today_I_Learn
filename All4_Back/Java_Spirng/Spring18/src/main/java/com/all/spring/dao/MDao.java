@@ -16,14 +16,13 @@ import com.all.spring.dto.MDto;
 
 public class MDao {
 	JdbcTemplate template;
-	
+
 	// 템플릿 쓸거야
 	public MDao() {
 		this.template = Constant.template;
 	}
 
-	// 회원가입 할거야
-	public void Join(final String user_id, final String user_pw, final String email, final String name,
+	public void join(final String user_id, final String user_pw, final String email, final String name,
 			final String regi_num_front, final String regi_num_back, final String year, final String month,
 			final String day, final String interest, final String introduce) {
 		this.template.update(new PreparedStatementCreator() {
@@ -49,38 +48,55 @@ public class MDao {
 		});
 
 	}
-	
+
 	// 로그인 할거야 (아이디, 비번 동일한 거 찾을거야)
 	public MDto login(final String user_id, final String user_pw) {
-	      String query = "select * from mvc_member where user_id = '" +  user_id + "' and user_pw = '" + user_pw +"'";
-	      return template.queryForObject(query, new BeanPropertyRowMapper<MDto>(MDto.class));
+		String query = "select * from mvc_member where user_id = '" + user_id + "' and user_pw = '" + user_pw + "'";
+		return template.queryForObject(query, new BeanPropertyRowMapper<MDto>(MDto.class));
 	}
-	
-	// 회원 목록 불러올거야 , admin 만 빼고 
+
+	// 회원 목록 불러올거야 , admin 만 빼고
 	public ArrayList<MDto> list() {
 		String query = "select * from mvc_member where NOT user_id ='admin' ";
-	      return (ArrayList<MDto>) template.query(query, new BeanPropertyRowMapper<MDto>(MDto.class));
+		return (ArrayList<MDto>) template.query(query, new BeanPropertyRowMapper<MDto>(MDto.class));
 	}
-	
-	// 회원 상세 보기 할거야 
+
+	// 회원 상세 보기 할거야
 	public MDto memberView(String user_id) {
-		
-		String query = "select * from mvc_member where user_id = '" + user_id +"'";
-	    return template.queryForObject(query, new BeanPropertyRowMapper<MDto>(MDto.class));
-	      
+
+		String query = "select * from mvc_member where user_id = '" + user_id + "'";
+		return template.queryForObject(query, new BeanPropertyRowMapper<MDto>(MDto.class));
+
 	}
-	
-	// 회원 지워버리기 
+
+	// 회원 지워버리기
 	public void delete(final String user_id) {
-		 String query = "delete from mvc_member where user_id= ?";
+		String query = "delete from mvc_member where user_id= ?";
 
-		 this.template.update(query, new PreparedStatementSetter() {
-	         
-	         @Override
-	         public void setValues(PreparedStatement ps) throws SQLException {
-	            ps.setString(1, user_id);
-	         }
-	      });
+		this.template.update(query, new PreparedStatementSetter() {
+
+			@Override
+			public void setValues(PreparedStatement ps) throws SQLException {
+				ps.setString(1, user_id);
+			}
+		});
 	}
 
+	// 마이페이지 정보 바꿔버리기~
+	public void edit(final String user_id, final String user_pw, final String email, final String name, final String interest, final String introduce) {
+		String sql = "UPDATE mvc_member SET user_pw=?, email=?, user_name=?, interest=?, introduce=? WHERE user_id=?";
+
+		this.template.update(sql, new PreparedStatementSetter() {
+
+			@Override
+			public void setValues(PreparedStatement ps) throws SQLException {
+				ps.setString(1, user_pw);
+				ps.setString(2, email);
+				ps.setString(3, name);
+				ps.setString(4, interest);
+				ps.setString(5, introduce);
+				ps.setString(6, user_id);
+			}
+		});
+	}
 }

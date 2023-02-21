@@ -8,18 +8,15 @@ import org.springframework.ui.Model;
 
 import com.all.spring.command.Command;
 import com.all.spring.dao.MDao;
+import com.all.spring.dto.MDto;
 
-public class MDeleteCommand implements Command{
-
+public class MyPageViewCommand implements Command {
 	@Override
 	public void execute(Model model) {
 		Map<String, Object> map = model.asMap();
 		HttpServletRequest request = (HttpServletRequest) map.get("request");
-		
-		new MDao().delete(request.getParameter("user_id"));
 
-		model.addAttribute("msg", request.getParameter("user_id") + " 삭제");
-        model.addAttribute("url", "/admin");
+		MDto dto = new MDao().memberView(request.getParameter("user_id"));
+		model.addAttribute("member", dto);
 	}
-
 }

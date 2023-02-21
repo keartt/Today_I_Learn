@@ -174,7 +174,6 @@ request.setCharacterEncoding("UTF-8");
 		  if (!check(regul1, user_pw, "비밀번호는 4~12자의 대소문자와 숫자로만")) {
 		    return false;
 		  }
-
 		  if ((user_pw.value) == (user_id.value)) {
 		    alert("비밀번호는 아이디와 달라야함");
 		    user_pw.value=""

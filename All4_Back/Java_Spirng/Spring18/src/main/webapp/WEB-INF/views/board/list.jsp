@@ -9,8 +9,11 @@
 </head>
 <body>
 <h3 style="text-align:center">게시판입니다</h3>
+
 <hr>
 	<center>
+	<button onclick="location.href='/mypage?user_id=${user_id}'"> 마이페이지</button>
+	<hr>
 		<table width="500" cellpadding="0" cellspacing="0" border="1">
 			<tr>
 				<td>번호</td>

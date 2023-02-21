@@ -1,6 +1,12 @@
 package com.all.spring.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +14,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.all.spring.command.Command;
 import com.all.spring.command.board.BContentCommand;
@@ -34,7 +41,6 @@ public class BController {
 	}
 	
 	
-	
 	// 글 리스트 페이지
 	@RequestMapping("/list")
 	public String list(Model model,HttpSession session){
@@ -51,6 +57,8 @@ public class BController {
 		
 		command = new BListCommand();
 		command.execute(model);
+		// 마이페이지 용으로 세션 아이디 보내기
+		model.addAttribute("user_id", userId);
 		
 		return "board/list";
 	}
@@ -62,7 +70,6 @@ public class BController {
 		// 로그인 안하면 로그인 페이지로
 		String userId = (String) session.getAttribute("user_id");
 	    if (userId == null) {
-	    	// alert 함께
 	    	model.addAttribute("msg", "로그인 하셈");
             model.addAttribute("url", "/login");
             
@@ -172,6 +179,7 @@ public class BController {
 		
 		return "board/reply_view";
 	}
+	
 	@RequestMapping("/reply")
 	public String reply(HttpServletRequest request, Model model, HttpSession session){
 		
@@ -190,4 +198,37 @@ public class BController {
 		
 		return "redirect:list";
 	}
+	
+	@RequestMapping("/download")
+    public void download(@RequestParam("filename") String filename, HttpServletRequest request, HttpServletResponse response) {
+        try {
+            String realPath = "";
+            String savePath = "boardupload";
+            int fileSize = 5 * 1024 * 1024;
+
+            realPath = request.getRealPath(savePath);
+            String filePath = realPath + "/" + filename;
+
+            File downloadFile = new File(filePath);
+            FileInputStream is = new FileInputStream(downloadFile);
+
+            String mimetype = "application/octet-stream";
+            response.setHeader("Content-Disposition", "attachment; filename=\"" + filename + "\";");
+            response.setContentType(mimetype);
+            response.setContentLength((int) downloadFile.length());
+            ServletOutputStream sos = response.getOutputStream();
+
+            byte[] buffer = new byte[4096];
+            int bytesRead = -1;
+
+            while ((bytesRead = is.read(buffer)) != -1) {
+                sos.write(buffer, 0, bytesRead);
+            }
+
+            is.close();
+            sos.close();
+        } catch (IOException ex) {
+
+        }
+    }
 }

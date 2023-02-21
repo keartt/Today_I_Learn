@@ -38,9 +38,18 @@ public class MDto {
 		this.introduce = introduce;
 	}
 
+	private String pw_chk;
 
+	public String getPw_chk() {
+		return pw_chk;
+	}
 
+	public void setPw_chk(String pw_chk) {
+		this.pw_chk = pw_chk;
+	}
 
+	
+	
 	public String getUser_id() {
 		return user_id;
 	}

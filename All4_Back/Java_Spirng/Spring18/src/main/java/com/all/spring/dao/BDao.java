@@ -1,5 +1,8 @@
 package com.all.spring.dao;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -21,21 +24,27 @@ public class BDao {
       this.template = Constant.template;
    }
    
-   public void write(final String bName, final String bTitle, final String bContent) {
+   // 게시글 작성하기 
+   public void write(final String bName, final String bTitle, final String bContent, final String file) {
       this.template.update(new PreparedStatementCreator() {
          
          @Override
          public PreparedStatement createPreparedStatement(Connection con)
                throws SQLException {
-            String query = "insert into mvc_board (bId, bName, bTitle, bContent, bHit, bGroup, bStep, bIndent) values (nextval('mvc_board_seq'), ?, ?, ?, 0, currval('mvc_board_seq'), 0, 0 )";
+            String query = "insert into mvc_board (bId, bName, bTitle, bContent, bHit, bGroup, bStep, bIndent, file) values (nextval('mvc_board_seq'), ?, ?, ?, 0, currval('mvc_board_seq'), 0, 0 , ?)";
             PreparedStatement pstmt = con.prepareStatement(query);
             pstmt.setString(1, bName);
             pstmt.setString(2, bTitle);
             pstmt.setString(3, bContent);
+            pstmt.setString(4, file);
             return pstmt;
          }
       });
    }
+   
+   
+    
+   
    
    public ArrayList<BDto> list() {
       
@@ -44,6 +53,7 @@ public class BDao {
       
    }
    
+   // 게시글 상세보기 
    public BDto contentView(int strID) {
       upHit(strID);
       
@@ -52,8 +62,8 @@ public class BDao {
       
    }
    
-   public void modify(final String bId, final String bName, final String bTitle, final String bContent) {
-      String query = "update mvc_board set bName = ?, bTitle = ?, bContent = ? where bId = ?";
+   public void modify(final String bId, final String bName, final String bTitle, final String bContent,final String file) {
+      String query = "update mvc_board set bName = ?, bTitle = ?, bContent = ?, file = ? where bId = ?";
       
       this.template.update(query, new PreparedStatementSetter() {
          
@@ -62,7 +72,8 @@ public class BDao {
             ps.setString(1, bName);
             ps.setString(2, bTitle);
             ps.setString(3, bContent);
-            ps.setInt(4, Integer.parseInt(bId));
+            ps.setString(4, file);
+            ps.setInt(5, Integer.parseInt(bId));
          }
       });
       
