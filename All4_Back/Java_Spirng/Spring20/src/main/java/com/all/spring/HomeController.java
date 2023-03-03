@@ -15,7 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.all.spring.dao.ContentDao;
+
 import com.all.spring.dao.IDao;
 import com.all.spring.dto.ContentDto;
 
