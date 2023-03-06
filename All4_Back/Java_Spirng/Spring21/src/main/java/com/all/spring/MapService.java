@@ -11,6 +11,7 @@ public class MapService {
 	SqlSession sqlSession;
 	
 	 public void saveCoordinate(Double x, Double y) {
+		 System.out.println(sqlSession);
 		 GDao dao = sqlSession.getMapper(GDao.class);
 		 dao.saveCoordinate(x, y);
 	    }

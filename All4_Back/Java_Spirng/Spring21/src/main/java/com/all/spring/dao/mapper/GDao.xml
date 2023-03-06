@@ -2,9 +2,9 @@
         <!DOCTYPE mapper
                 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.mappers.MapMapper">
+<mapper namespace="com.all.spring.dao.GDao">
     
-    <insert id="saveCoordinate" parameterType="java.util.Map">
+    <insert id="saveCoordinate" parameterType="double">
         INSERT INTO testlayer1 (geom) 
         VALUES (ST_SetSRID(ST_Point(#{x}, #{y}), 5179))
     </insert>
