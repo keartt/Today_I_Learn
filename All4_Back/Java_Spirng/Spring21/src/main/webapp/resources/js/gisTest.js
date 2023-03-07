@@ -156,9 +156,6 @@ window.onload = function() {
 				}
 			}
 
-
-
-
 			// 체크 하나만 하도록
 			if ($('#property').is(':checked') && $('#saveC').is(':checked')) {
 				alert('둘 중 하나만 체크 바람');

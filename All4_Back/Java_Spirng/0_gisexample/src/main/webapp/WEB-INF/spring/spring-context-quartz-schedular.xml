@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:context="http://www.springframework.org/schema/context"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans
+							http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+							http://www.springframework.org/schema/context
+							http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+
+    <!-- postgresql -->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="org.postgresql.Driver"/>
+        <property name="url" value="jdbc:postgresql://127.0.0.1:5432/postgres"/>
+        <property name="username" value="postgres"/>
+        <property name="password" value="1234"/>
+    </bean>
+    
+    <bean name="template" class="org.springframework.jdbc.core.JdbcTemplate">
+    	<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	
+	<!-- mybatis를 사용하므로 dao필요 x
+	<beans:bean name="dao" class="com.all.test.dao.ContentDao">
+		<beans:property name="template" ref="template"></beans:property>
+	</beans:bean> -->
+	
+	<!-- mybatis 사용 -->
+	<!--dao패키지 안에 mapper패키지를 만들고 거기 안에 있는 모든 xml 파일을 불러서 쓰겠다는것!-->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="mapperLocations" value='classpath:com/all/test/mapper/*.xml'></property>
+	</bean>
+	
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="sqlSessionFactory"></constructor-arg>
+	</bean>
+
+
+	<bean id="gisService" class="com.all.test.gis.service.GISServiceImpl"/>
+
+
+	<bean name="jobDetail" class="org.springframework.scheduling.quartz.JobDetailBean">
+		<property name="jobClass" value="com.all.test.schedular.GISSchedularJob" />
+		<property name="jobDataAsMap">
+		  <map>
+			<entry key="gisService" value-ref="gisService" />
+			<entry key="sqlSession" value-ref="sqlSession" />
+		  </map>
+		</property>
+
+	</bean>
+	
+    <!-- bean id="jobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="gisService" />
+        <property name="targetMethod" value="copyGISData" />
+        <property name="concurrent" value="false" />
+    </bean -->
+
+    <bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail" ref="jobDetail" />
+        <property name="cronExpression" value="0 * * * * ?" />
+    </bean>
+
+    <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="triggers">
+            <list>
+                <ref bean="cronTrigger" />
+            </list>
+        </property>
+        <property name="quartzProperties">
+			<props>
+            	<prop key="org.quartz.scheduler.skipUpdateCheck">true</prop>
+        	</props>
+		</property>
+    </bean>
+
+</beans>

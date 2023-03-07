@@ -1,0 +1,45 @@
+-- 시퀀스 생성
+--create sequence mybatis_board_pkey;
+
+-- 테이블 생성 - board
+--CREATE TABLE mybatis_board (
+--	bid int4 NOT NULL DEFAULT nextval('mybatis_board_pkey'::regclass),
+--	bname varchar(20) NULL,
+--	btitle varchar(100) NULL,
+--	bcontent varchar(300) NULL,
+--	bdate date NULL DEFAULT now(),
+--	bhit int4 NULL DEFAULT 0,
+--	bgroup int4 NULL,
+--	bstep int4 NULL,
+--	bindent int4 NULL,
+--	bpw varchar NULL,
+--	bfile varchar NULL,
+--	CONSTRAINT mybatis_board_bid PRIMARY KEY (bid)
+--);
+
+-- 테이블 생성 - member
+--CREATE TABLE mybatis_member (
+--	member_id varchar(50) NOT NULL,
+--	member_pw varchar(100) NULL,
+--	member_name varchar(20) NULL,
+--	member_email varchar(50) NULL,
+--	member_pnumber varchar(50) NULL,
+--	member_favorite varchar(50) NULL,
+--	member_introduce text NULL,
+--	member_year varchar(50) NULL,
+--	member_month varchar(50) NULL,
+--	member_day varchar(50) NULL,
+--	member_address varchar(200) NULL,
+--	member_postcode varchar(20) NULL,
+--	CONSTRAINT mybatis_member_pkey PRIMARY KEY (member_id)
+--);
+
+-- 예시 값 추가
+--INSERT INTO mybatis_board(bname, btitle, bcontent, bdate, bhit, bgroup, bstep, bindent, bpw, bfile)
+--VALUES('name', 'title', 'content', now(), 1, (select max(bid) from mybatis_board)+1, 0, 0, '1234', 'file');
+
+--INSERT into mybatis_member 
+--(member_id, member_pw, member_name, member_email, member_pnumber, member_favorite, member_introduce, member_year, member_month, member_day, member_address, member_postcode)
+--VALUES('admin', '1234', '관리자계정', 'admin@naver.com', '', '', '', '', '', '', '', '');
+
+--select * from mybatis_board ORDER BY bid desc;

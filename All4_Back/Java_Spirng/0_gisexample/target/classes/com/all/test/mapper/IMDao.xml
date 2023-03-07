@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.all.test.member.dao.IMDao">
+
+<select id="listDao" resultType="com.all.test.member.dto.MemberDto">
+	SELECT * FROM mybatis_member where member_id != 'admin' ORDER BY member_id DESC
+</select>   
+
+<select id="login" resultType="com.all.test.member.dto.MemberDto">
+	SELECT member_pw FROM mybatis_member WHERE member_id = #{param1}
+</select>
+
+<insert id="join">
+INSERT INTO mybatis_member
+(member_id, member_pw, member_name, member_email, member_pnumber, member_favorite, member_introduce, member_year, member_month, member_day, member_address, member_postcode)
+VALUES(#{param1}, #{param2}, #{param4}, #{param3}, #{param5}, #{param12}, #{param13}, #{param6}, #{param7}, #{param8}, #{param10}, #{param9});
+</insert>
+
+<select id="MemberDao" resultType="com.all.test.member.dto.MemberDto">
+	SELECT * FROM mybatis_member WHERE member_id = #{param1}
+</select> 
+
+<delete id="deleteDao">delete from mybatis_member where member_id = #{param1} </delete>
+
+<update id="modifyDao">
+	UPDATE mybatis_member SET member_pw= #{param2}, member_name= #{param3}, member_email= #{param4}, member_pnumber= #{param5}, member_favorite= #{param6}, member_introduce= #{param7}, member_year= #{param8}, member_month=#{param9}, member_day=#{param10}, member_address=#{param12}, member_postcode=#{param11} WHERE member_id= #{param1}
+</update>
+
+</mapper>

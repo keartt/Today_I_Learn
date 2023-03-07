@@ -13,4 +13,14 @@
     	SELECT ST_X(geom) as coordX, ST_Y(geom) as coordY from testlayer1
     </select>
     
+    <insert id="copyGISData" >
+    	INSERT INTO testlayer2(id, geom)
+    	SELECT 
+    		a.id as id, a.geom as geom
+    		from testlayer1 a
+    		left join testlayer2 b
+    		on a.id = b.id
+    		where b.id is null
+    </insert>
+    
 </mapper>

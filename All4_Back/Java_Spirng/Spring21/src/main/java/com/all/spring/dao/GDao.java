@@ -11,4 +11,6 @@ public interface GDao {
 	
 	public ArrayList<HashMap< ? , ?>> viewCoordinate();
 	
+	public Integer copyGISData();
+	
 }
