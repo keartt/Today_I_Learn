@@ -24,7 +24,7 @@
 	 <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 	 <script src="https://cdn.jsdelivr.net/npm/file-saver@2.0.5/dist/FileSaver.min.js"></script>
 	 
-<script src="${pageContext.request.contextPath}/resources/js/gisTest.js"></script>
+<script src="${pageContext.request.contextPath}/resources/static/js/gisTest.js"></script>
 
 
 <title>gis Test</title>
@@ -105,9 +105,15 @@ font-size: 16px;
 .onoff-switch-container input[type="checkbox"]:checked+label::before {
 	background: #fff;
 }
-.attrDiv{
-	z_index:1;
-}
+
+.attrDiv {
+             			display: none;
+    					position: absolute;
+    					background: white;
+    					top: 50%;
+    					left: 50%;
+    					border: solid red;
+                    }
 </style>
 
 </head>

@@ -13,13 +13,13 @@
 	</select>
 	
 	<insert id="copyGISData">
-		insert into public.testlayer2(gid, contents, geom)
+		insert into public.testlayer2(id, contents, geom)
 		select 
-			a.gid as gid, a.contents as contents, a.geom as geom
+			a.id as id, a.contents as contents, a.geom as geom
 		from public.testlayer1 a
 		left join public.testlayer2 b
-		on a.gid = b.gid
-		where b.gid is null
+		on a.id = b.id
+		where b.id is null
 	</insert>
 </mapper>
 

@@ -25,15 +25,7 @@
 	<beans:bean id="viewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver">
 		<beans:property name="order" value="1" />
 	</beans:bean>
-		
-	<!-- JdbcTemplate 사용하기 위해서 빈 설정 -->
-	<!-- 오라클 -->
-	<!-- <beans:bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <beans:property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
-        <beans:property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
-        <beans:property name="username" value="hr"/>
-        <beans:property name="password" value="1234"/>
-    </beas:bean> -->
+
     
 	<context:component-scan base-package="com.all.test" />
     

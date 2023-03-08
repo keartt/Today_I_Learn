@@ -47,16 +47,17 @@ public class GISController {
         mapService.saveCoordinate(x, y);
         return "success";
     }
-	
-	@ResponseBody
+
 	@RequestMapping(value = "/view-coordinate", method = RequestMethod.GET)
 	public ModelAndView viewCoordinate(HttpServletRequest request) {
-		GDao dao = sqlSession.getMapper(GDao.class);
+		System.out.println("1" + sqlSession);
 
+		GDao dao = sqlSession.getMapper(GDao.class);
 		ArrayList<HashMap<?, ?>> rtn = dao.viewCoordinate();
-		ModelAndView model = new ModelAndView();
 		
+		ModelAndView model = new ModelAndView();
 		model.addObject("rtn", rtn);
+		System.out.println("2" +rtn);
 		model.setViewName("jsonView");
 		
 		return model;

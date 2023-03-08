@@ -9,6 +9,8 @@ public interface GDao {
 
 	public void saveCoordinate (@Param("x") double x, @Param("y") double y) ;
 	
-	public ArrayList<HashMap< ? , ?>> viewCoordinate();
 	
+	public ArrayList<HashMap<?,?>> viewCoordinate();
+
+	public Integer copyData();
 }
