@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>문제문제</title>
+</head>
+<body>
+  <p><input type="text" id="text1" size="30px"><input type="button" value="미리보기"  onclick ="go()" style="margin-left: 10px;"></p>
+  <p>색상 : <select name="color" id="color">
+    <option value="red" >빨강</option>
+    <option value="blue" >파랑</option>
+    <option value="green" >초록</option>
+  </select></p>
+  <p>크기 : <select name="size" id="size">
+    <option value="1" >1</option>
+    <option value="2" >2</option>
+    <option value="3" >3</option>
+    <option value="4" >4</option>
+    <option value="5" >5</option>
+  </select></p>
+  
+  <!-- <p><input type="checkbox"  name="style" value="del" >취소선 
+    <input type="checkbox" name="style" value="big" >크게
+    <input type="checkbox" name="style"  value="small" >작게
+    <input type="checkbox" name="style" value="bold" >두껍게
+    <input type="checkbox" name="style" value="italic" >기울임
+  </p>
+  <p><input type="checkbox" name="style" value="sup" >위첨자 
+    <input type="checkbox" name="style" value="sub" >아래첨자
+    <input type="checkbox" name="style" value="upper" >소문자로
+    <input type="checkbox" name="style" value="lower" >대문자로</p> -->
+
+    <input type="checkbox"  name="style" value="del" >취소선 
+    <input type="checkbox" name="style" value="big" >크게
+    <input type="checkbox" name="style"  value="small" >작게
+    <input type="checkbox" name="style" value="bold" >두껍게
+    <input type="checkbox" name="style" value="italic" >기울임<br>
+    <input type="checkbox" name="style" value="sup" >위첨자 
+    <input type="checkbox" name="style" value="sub" >아래첨자
+    <input type="checkbox" name="style" value="upper" >소문자로
+    <input type="checkbox" name="style" value="lower" >대문자로 <br>
+
+
+  <div id="result" style="height: 100px; width: 500px; border:1px solid rgb(27, 25, 14); text-align: center; "  ></div>
+</body>
+<script type="text/javascript">
+
+            function go(){
+                var textBox = document.getElementById("text1").value;
+                var color = document.getElementById("color").value;
+                var size = document.getElementById("size").value;
+                var attr = document.getElementsByName("style");
+                var chkattr = [];
+                for(var i=0; i<attr.length; i++){
+                    if(attr[i].checked) chkattr.push(attr[i].value);
+                }
+                for(var i=0; i<chkattr.length; i++){
+                    if(chkattr[i]=="strike") textBox=textBox.strike();
+                    else if(chkattr[i]=="big") textBox=textBox.big();
+                    else if(chkattr[i]=="small") textBox=textBox.small();
+                    else if(chkattr[i]=="bold") textBox=textBox.bold();
+                    else if(chkattr[i]=="italics") textBox=textBox.italics();
+                    else if(chkattr[i]=="sub") textBox=textBox.sub();
+                    else if(chkattr[i]=="sup") textBox=textBox.sup();
+                    else if(chkattr[i]=="upper") textBox=textBox.toUpperCase();
+                    else if(chkattr[i]=="lower") textBox=textBox.toLowerCase();
+                }
+                textBox=textBox.fontsize(size);
+                textBox=textBox.fontcolor(color);
+                document.getElementById("result").innerHTML=textBox;
+            }
+
+// var text_result =  document.getElementById("result");
+
+// function show(){
+//     if (text1 != null) {
+//       document.getElementById("result").innerText = document.getElementById("text1").value;
+//     }
+//     color();
+//     size();
+//     checkB();
+//   }
+
+// function color() {
+//   var color_choice  = document.getElementById("color");
+// 	var value = (color_choice.options[color_choice.selectedIndex].value);
+//     switch (value) {
+//       case "red" :   text_result.style.color='red';           break;
+//       case "blue":  text_result.style.color='blue';                break;
+//       case "green":  text_result.style.color='green';                break;
+//       default: break;
+//     }
+// }
+
+// function size() {
+//   var size_choice  = document.getElementById("size");
+// 	var value = (size_choice.options[size_choice.selectedIndex].value);
+//     switch (value) {
+//       case "1" :   text_result.style.fontSize='2px';           break;
+//       case "2":  text_result.style.fontSize='10px';                break;
+//       case "3":  text_result.style.fontSize='30px';                break;
+//       case "4":  text_result.style.fontSize='50px';                break;
+//       case "5":  text_result.style.fontSize='90px';                break;
+//       default: break;
+//     }
+// }
+
+// function checkB(){
+//   var chk =document.querySelector('input[name="style"]:checked').value;
+//     if(document.querySelector('input[name="style"]').checked) {
+//       switch (chk) {
+//       case "del": text_result.style.textDecorationLine='line-through';  break;
+//       case "big":  text_result.style.fontSize='100px';                break;
+//       case "small":  text_result.style.fontSize='10px';                break;
+//       case "bold":  text_result.style.font.weight='bold';                break;
+//       case "italic":  text_result.style.fontStyle= "italic";                break;
+//       case "sup":  text_result.style.verticalAlign='supper';                break;
+//       case "sub":  text_result.style.verticalAlign='sub';                break;
+//       case "upper":  text_result.style.text.transform ='uppercase ';                break;
+//       case "lower":  text_result.style.text.transform = 'lowercase ';                break;  
+
+    
+//       default:
+//         break;
+//     }
+//   }
+// }
+
+
+</script>
+</html>

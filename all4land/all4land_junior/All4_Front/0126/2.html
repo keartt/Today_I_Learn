@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script type="text/javascript">
+    window.alert("하이")
+
+    var fName = "도현";
+    try {
+      document.write("내 이름은" + lName + "입니다"  );
+    } catch (ex) {
+      document.write(ex.message + '<br>',"<br>");
+    }
+
+    function sayHello() {
+      document.write("자바스크립트 함수 출력 <br>")
+    }
+    sayHello();
+
+    function add(n1, n2) {
+      document.write(n1 + " +" + n2 + "=" + (n1+n2),'<br>' )
+    }
+    add(1,2)
+
+    function add2(n1,n2) {
+      return n1+n2;
+    }
+    var result = add2(3,2);
+    document.write("answer : " + result)
+
+    // 유저에게 입력받는 창
+    var userInput = prompt("what is your name? : ")
+    alert(userInput + "님 환영함")
+
+   
+    // 선택창, y 클릭시 true 리턴
+    if ( window.confirm("Y or N")) {
+      alert("yes")
+    }else {
+      alert("no")
+    }
+
+  </script>
+</head>
+<body>
+  
+</body>
+</html>

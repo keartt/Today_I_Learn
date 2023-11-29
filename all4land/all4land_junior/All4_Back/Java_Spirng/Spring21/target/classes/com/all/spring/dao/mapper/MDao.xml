@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.all.spring.dao.MDao">
+	<resultMap id="memberResultMap" type="com.all.spring.dto.MDto">
+		<result property="*" column="*" />
+	</resultMap>
+
+	<insert id="join">
+		insert into mvc_member values ( #{user_id},
+		#{user_pw},#{email},
+		#{name},#{regi_num_front},#{regi_num_back},#{year},
+		#{month},#{day},#{interest},#{introduce} )
+	</insert>
+
+	<select id="login" resultMap="memberResultMap" >
+		select * from mvc_member where user_id = #{user_id} and user_pw = #{user_pw}
+	</select>
+
+	<select id="list" resultMap="memberResultMap"  >
+		select * from mvc_member where NOT user_id ='admin'
+	</select>
+
+	<select id="memberView" resultMap="memberResultMap"  >
+		select * from mvc_member where user_id = #{user_id}
+	</select>
+
+	<delete id="delete">
+		delete from mvc_member where user_id= #{user_id}
+	</delete>
+
+	<update id="edit">
+		UPDATE mvc_member SET user_pw=#{user_pw}, email=#{email},
+		user_name=#{user_name}, interest=#{interest}, introduce=#{introduce}
+		WHERE user_id=#{user_id}
+	</update>
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

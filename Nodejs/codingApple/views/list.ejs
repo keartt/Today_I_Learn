@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="/public/main.css">
+  <title>node Hi</title>
+</head>
+
+<body>
+  
+  <!-- ejs 파일에서 nav 첨부하는 방법 -->
+  <%- include('nav.html') %>
+
+  <h4 class="text-center">db 에서 가져온 리스트 </h4>
+
+  <div class="container">
+  <h4 class="ml-2 my-3" >
+    <ul class="list-group" >
+      <% for (var i=0; i < postList.length; i++){ %>
+        <li class="list-group-item" >
+          <a href='/detail/<%= postList[i]._id %>';> 글번호 : <%= postList[i]._id %>  </a>
+          </p>
+          <h4> 할일 제목 : <%= postList[i].title %>
+          </h4>
+          <p> 할일 마감날짜 : <%= postList[i].date %>
+          </p>
+          <button class="btn btn-primary update"  onclick="location.href='/edit/<%= postList[i]._id %>';">수정</button>
+          <button class="btn btn-danger delete" data-id="<%= postList[i]._id %>">삭제</button>
+          <button class="btn btn-secondary chat" data-id="<%= postList[i].writer %>">채팅하기</button>
+        </li>
+        <% } %>
+    </ul>
+  </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+   
+    <script>
+      $('.delete').click(function(e){
+        $.ajax({
+          method : 'DELETE',
+          url : '/delete',
+          // 게시물 번호를 담아서 삭제 요청 =  버튼의 data-id 를 넣으면 됨 
+          data : { _id : e.target.dataset.id }
+        }).done((success)=>{
+          // 요청이 성공하면 실행할 코드
+          $(this).parent('li').fadeOut(); // $(this)지금 이벤트 동작하는 곳
+        }).fail((error) => {
+          // 실패 했을 때 코드 
+        })
+      });
+
+      $('.chat').click(function(e){
+      var _id = e.target.dataset.id;
+      console.log('_id' + _id)
+      $.post('/chatroom', {당한사람id : _id})
+      .then(()=>{
+        console.log('채팅방 게시물 생성완료')
+      })
+    });
+
+    </script>
+</body>
+
+</html>

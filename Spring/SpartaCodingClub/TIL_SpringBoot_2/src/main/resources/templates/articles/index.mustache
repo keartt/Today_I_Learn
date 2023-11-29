@@ -1,0 +1,26 @@
+{{>layouts/header}} <!-- 게시판 목록 /articles -->
+
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Title</th>
+        <th scope="col">Content</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    {{#articleList}}    <!-- 해당 변수가 데이터의 묶음일 경우 내부를 반복 -->
+    <tr>
+        <td>{{id}}</td>
+        <td> <a href="/articles/{{id}}"> {{title}} </a> </td> <!-- 목록에서 제목 표시시 상세페이지로 이동하게 a 태그로 링크 -->
+        <td>{{content}}</td>
+    </tr>
+    {{/articleList}}
+
+    </tbody>
+
+</table>
+<a href="/articles/new" class="btn btn-primary"> New Article </a> <!-- articles 페이지에서 articles/new 페이지로 링크 -->
+{{>layouts/footer}}
+

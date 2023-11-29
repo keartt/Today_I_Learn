@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>threejs Test</title>
+  <script type="importmap">
+    {
+      "imports" : {
+        "three" : "/build/three.module.js",
+        "GLTFLoader": "/jsm/loaders/GLTFLoader.js",
+        "OrbitControls" : "/jsm/controls/OrbitControls.js"
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="/css/main.css">
+  <script type="module" src="/js/three.js"></script>
+  <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+  <script type="text/javascript" src="/js/main.js"></script>
+</head>
+<body>
+  <div id="container">
+    <canvas id="canvas" width="900" height="500"></canvas>
+    <div id="overlay">
+      <h2>쓰리 연습 페이지</h2>
+      <button class="toggleButton off"> 버튼1 </button>
+    </div>
+  </div>
+</body>
+</html>
