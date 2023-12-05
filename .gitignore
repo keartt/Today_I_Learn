@@ -1,0 +1,16 @@
+/.metadata/
+.DS_Store
+
+# IntelliJ IDEA
+**/*.iml
+**/*.ipr
+**/*.iws
+**/.idea/
+
+# Eclipse
+**/.classpath
+**/.project
+**/.factorypath
+**/target/
+**/.settings/
+
