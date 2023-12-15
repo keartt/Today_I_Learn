@@ -28,6 +28,11 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + '/src/index.html');
 });
 
+app.get('/gasan', (req, res) => {
+    console.log("client IP: " +requestIp.getClientIp(req));
+    res.sendFile(__dirname + '/src/gasan.html');
+});
+
 app.listen(port, () => {
     console.log(`:${port} server 온!`);
 });
