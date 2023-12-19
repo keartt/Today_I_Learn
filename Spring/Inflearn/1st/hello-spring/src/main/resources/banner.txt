@@ -1,0 +1,7 @@
+${AnsiColor.RED}     |\_/|
+${AnsiColor.RED}     | @ @    ${AnsiColor.GREEN}Spring Boot ${spring-boot.version}
+${AnsiColor.BRIGHT_YELLOW}     |   <>              _                   .--~~,__
+${AnsiColor.BRIGHT_GREEN}     |  _/\------____ ((| |))   :-....,-------`~~'._.'
+${AnsiColor.GREEN}     |               `--' |      `-,,,  ,_      ;'~U'
+${AnsiColor.BRIGHT_CYAN} ____|_       ___|   |___.'       _,-' ,'`-__; '--.
+${AnsiColor.BLUE}/_/_____/____/_______|          (_/'~~      ''''(;)
