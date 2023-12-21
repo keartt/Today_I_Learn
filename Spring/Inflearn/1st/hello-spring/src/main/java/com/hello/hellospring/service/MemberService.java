@@ -41,10 +41,14 @@ public class MemberService {
         return repository.findById(memberId);
     }
 
+    public Optional<Member> findOneName  (String memberName) {
+        return repository.findByName(memberName);
+    }
+
     private void validateDuplicateMember(Member member) {
         repository.findByName(member.getName())
                 .ifPresent(m -> {
-                    throw new IllegalStateException("already exist");
+                    throw new IllegalStateException("이미 있지롱-s");
                 });
     }
 
