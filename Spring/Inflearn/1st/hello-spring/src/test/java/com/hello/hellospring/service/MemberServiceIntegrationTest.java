@@ -17,8 +17,9 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 // 스프링 컨테이너와 테스트를 함께 실행
 // 스프링에서 jdbc 등 디비 설정을 다 들고 있기에 연동한 통합 테스트 실행
 @SpringBootTest
-//데이터베이스에서 커밋 전까지는 반영안됨, 테스트가지만 하고 콜백 때려버리기
-// 테스트 시작 전 트랜잭션 시작, 테스트 후 롤백 -> 다음 테스트에 영향X : 테스트고드는 반복이 가능해야 한다.
+
+//데이터베이스에서 커밋 전까지는 반영안됨, 테스트까지만 하고 콜백 때려버리기
+// 테스트 시작 전 트랜잭션 시작, 테스트 후 롤백 -> 다음 테스트에 영향X : 테스트코드는 반복이 가능해야 한다.
 @Transactional
 class MemberServiceIntegrationTest {
 
