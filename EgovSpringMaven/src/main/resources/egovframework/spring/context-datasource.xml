@@ -17,5 +17,10 @@
         <property name="username" value="${second.psql.id}"/>
         <property name="password" value="${second.psql.pw}"/>
     </bean>
+
+    <!--프로그램 시작시 테이블 생성 sql-->
+    <jdbc:initialize-database data-source="dataSource">
+        <jdbc:script location="classpath:egovframework/sql/create.sql"/>
+    </jdbc:initialize-database>
     
 </beans>

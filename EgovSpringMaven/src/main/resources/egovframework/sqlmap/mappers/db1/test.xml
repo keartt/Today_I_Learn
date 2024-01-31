@@ -8,9 +8,9 @@
 	
 	<insert id="testInsert" parameterType="testVO">
 		INSERT INTO testdb
-			(name, phoneNumber)
+			(testid, name, phoneNumber)
 		VALUES
-			(#{name}, #{phoneNumber})
+			(#{testId}, #{name}, #{phoneNumber})
 	</insert>
 
 </mapper>
