@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import egovframework.rte.fdl.cmmn.exception.FdlException;
+import egovframework.rte.fdl.idgnr.EgovIdGnrService;
 import egovframework.rte.psl.dataaccess.util.EgovMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,11 +28,15 @@ public class TestController {
 	@Resource(name = "testService")
 	private testService testService;
 
+	@Resource(name = "idGenTest")
+	private EgovIdGnrService idGen;
+
 	private static final Logger LOGGER = LoggerFactory.getLogger(TestController.class);
 
 	@RequestMapping("/insert.do")
-	public String testInsert(Model model, @RequestBody testVO vo) {
+	public String testInsert(Model model, @RequestBody testVO vo) throws FdlException {
 		LOGGER.info("{}거 들어옴", vo);
+		vo.setTestId(idGen.getNextStringId());
 		testService.insert(vo);
 		model.addAttribute("page", "test.do");
 		return "jsonView";
