@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE mapper
+                PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+                "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.all.spring.dao.GDao">
+    
+    <insert id="saveCoordinate" parameterType="double">
+        INSERT INTO testlayer1 (geom) 
+        VALUES (ST_SetSRID(ST_Point(#{x}, #{y}), 5179))
+    </insert>
+    
+    <select id="viewCoordinate" resultType="java.util.HashMap">
+    	SELECT ST_X(geom) as coordX, ST_Y(geom) as coordY from testlayer1
+    </select>
+    
+    <insert id="copyGISData" >
+    	INSERT INTO testlayer2(id, geom)
+    	SELECT 
+    		a.id as id, a.geom as geom
+    		from testlayer1 a
+    		left join testlayer2 b
+    		on a.id = b.id
+    		where b.id is null
+    </insert>
+    
+</mapper>

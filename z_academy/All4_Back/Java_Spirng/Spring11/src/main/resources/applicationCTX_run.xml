@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+	profile="run">
+
+	<bean id="serverInfo" class="com.all.spring.ServerInfo" >
+	<property name="ipNum">
+		<value>run</value>
+	</property>
+	<property name="portNum">
+		<value>run~</value>
+	</property>
+	</bean>
+	
+</beans>
