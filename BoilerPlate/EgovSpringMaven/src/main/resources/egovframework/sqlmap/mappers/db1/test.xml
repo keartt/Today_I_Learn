@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="boilerPlateEgov.test.service.impl.testDAO">
+
+	<select id="testSelectAll" resultType="egovMap">
+		select * from testdb
+	</select>
+	
+	<insert id="testInsert" parameterType="testVO">
+		INSERT INTO testdb
+			(testid, name, phoneNumber)
+		VALUES
+			(#{testId}, #{name}, #{phoneNumber})
+	</insert>
+
+</mapper>
