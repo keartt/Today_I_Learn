@@ -20,6 +20,12 @@ import javax.sql.DataSource;
 @Configuration
 public class SpringConfig {
 
+    private final MemberRepository memberRepository;
+
+    public SpringConfig(MemberRepository memberRepository) {
+        this.memberRepository = memberRepository;
+    }
+
     @PersistenceContext
     private EntityManager em;
 
@@ -32,7 +38,7 @@ public class SpringConfig {
 
     @Bean
     public MemberService memberService() {
-        return new MemberService(memberRepository());
+        return new MemberService(memberRepository);
     }
 
     @Bean
