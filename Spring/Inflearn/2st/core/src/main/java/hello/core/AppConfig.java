@@ -1,19 +1,41 @@
 package hello.core;
 
+import hello.core.discount.DiscountPolicy;
 import hello.core.discount.RateDiscountPolicy;
 import hello.core.member.MemberService;
 import hello.core.member.MemberServiceImpl;
 import hello.core.member.MemoryMemberRepository;
 import hello.core.order.OrderService;
 import hello.core.order.OrderServiceImpl;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
+// 구성영역
+@Configuration
 public class AppConfig {
+
+    @Bean
     public MemberService memberService() {
-        return new MemberServiceImpl(new MemoryMemberRepository());
+        return new MemberServiceImpl(memberRepository());
     }
 
-    public OrderService orderService() {
-        return new OrderServiceImpl(new MemoryMemberRepository(), new RateDiscountPolicy());
+    // 중복제거와
+    @Bean
+    public static MemoryMemberRepository memberRepository() {
+        return new MemoryMemberRepository();
     }
+    @Bean
+    public OrderService orderService() {
+        return new OrderServiceImpl(memberRepository(), discountPolicy());
+    }
+
+    // 역할과 구현 분리
+    @Bean
+    public static DiscountPolicy discountPolicy() {
+        // 정책을 바꾸기 위해서는 이 부분만 바꾸면 된다.
+//        return new FixDiscountPolicy();
+        return new RateDiscountPolicy();
+    }
+
 
 }
