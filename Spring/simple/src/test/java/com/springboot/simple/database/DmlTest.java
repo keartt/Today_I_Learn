@@ -4,7 +4,6 @@ import com.springboot.simple.user.User;
 import com.springboot.simple.user.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,9 +38,14 @@ public class DmlTest {
     }
 
     @Test
+    @Transactional
     void update() {
-        User user = userRepository.findById(1L)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        User user = User.builder()
+                .userId("아이디")
+                .pw("비밀번호")
+                .name("이름")
+                .build();
+        userRepository.save(user);
 
         User updateUser = user.toBuilder()
                 .userId("admin")
@@ -54,6 +58,19 @@ public class DmlTest {
         assertThat(savedUser.getUserId()).isEqualTo(updateUser.getUserId());
         assertThat(savedUser.getName()).isEqualTo(updateUser.getName());
         assertThat(savedUser.getPw()).isEqualTo(updateUser.getPw());
-        System.out.println(savedUser);
+    }
+    @Test
+    @Transactional
+    void delete() {
+        User user = User.builder()
+                .userId("아이디")
+                .pw("비밀번호")
+                .name("이름")
+                .build();
+        userRepository.save(user);
+
+        userRepository.delete(user);
+
+        assertThat(userRepository.findById(user.getId()).isEmpty()).isTrue();
     }
 }
