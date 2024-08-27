@@ -1,23 +1,25 @@
 package com.springboot.simple.user;
 
-import com.springboot.simple.board.Board;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.time.LocalDateTime;
-import java.util.Set;
 
-@Entity @Table(name="user_info")
-@Getter @Setter @ToString
+@Entity
+@Table(name="user_info")
+@Getter
+@ToString
+@NoArgsConstructor
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 255, unique = true)
+    @Column(nullable = false, length = 255)
     private String userId;
 
     @Column(nullable = false, length = 255)
@@ -26,13 +28,32 @@ public class User {
     @Column(nullable = false, length = 255)
     private String name;
 
-    @Column(updatable = false, nullable = false)
+    @Column(updatable = false, insertable = false, nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime createTime;
 
-    @Column(name = "editTime")
+    @Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime editTime;
 
-    @OneToMany(mappedBy = "user")
-    private Set<Board> boards;
+    //@OneToMany(mappedBy = "user")
+    //private Set<Board> boards;
 
+    @Builder(toBuilder = true)
+    public User(Long id, String userId, String pw, String name) {
+        this.id = id;
+        this.userId = userId;
+        this.pw = pw;
+        this.name = name;
+    }
+
+
+    @PrePersist
+    protected void onCreate() {
+        this.createTime = LocalDateTime.now();
+        this.editTime = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.editTime = LocalDateTime.now();
+    }
 }
