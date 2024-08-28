@@ -34,9 +34,6 @@ public class User {
     @Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime editTime;
 
-    //@OneToMany(mappedBy = "user")
-    //private Set<Board> boards;
-
     @Builder(toBuilder = true)
     public User(Long id, String userId, String pw, String name) {
         this.id = id;

@@ -48,6 +48,45 @@
             padding-left: 10px;
             background-color: rgb(68, 136, 244);
         }
+        .header {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            background-color: #fff;
+            padding: 10px 20px;
+            border-bottom: 1px solid lightgray;
+        }
+        .header .user-info, .header .login-btn {
+            margin-left: 20px;
+        }
+        .header .user-info {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+        .header .user-info img {
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
+        }
+        .header .user-info span {
+            font-size: 22px;
+            color: rgb(68, 136, 244);
+        }
+        .header .login-btn {
+            font-size: 15px;
+            border: 0;
+            background-color: rgb(164, 199, 255);
+            color: rgb(68, 136, 244);
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .header .login-btn:hover {
+            background-color: rgb(68, 136, 244);
+            color: white;
+        }
     </style>
     <script>
         function createPost() {
@@ -70,7 +109,13 @@
     </script>
 </head>
 <body>
-
+<div class="header">
+    <div class="user-info" id="user-info" style="display: none;">
+        <span id="username">사용자 이름</span>
+    </div>
+    <button class="login-btn" id="logout">로그아웃</button>
+    <button class="login-btn" id="login-btn">로그인</button>
+</div>
     <table>
         <tr><td><h2>글쓰기</h2></td></tr>
         <tr><td class="header">Title</td></tr>
@@ -79,33 +124,44 @@
         <tr><td><textarea placeholder="내용을 입력하세요" name="detail" id="content"></textarea></td></tr>
         <tr><td><input type="submit" value="등록" onclick="createPost()"></td></tr>
     </table>
+<script th:inline="javascript">
+    $(document).ready(function () {
+        loginChk();
 
-    <script>
-        $(document).ready(function() {
-            check();
-            // 예제 사용자 데이터
-            const isLoggedIn = true; // 로그인 상태를 시뮬레이션합니다 (false로 변경하면 로그아웃 상태가 됩니다)
-            const username = "홍길동"; // 예제 사용자 이름
+    });
 
-            if (isLoggedIn) {
-                $('#user-info').show()
-                $('#username').text(username + '님 안녕하세요');
-                $('.login-btn').hide();
 
-                $('#user-info').click(function() {
-                    location.href = 'user-profile.html';
-                });
-            } else {
-                // 로그인 버튼 클릭 시 로그인 페이지로 리디렉션합니다
-                $('#login-btn').click(function() {
-                    location.href = 'login.html'; // 로그인 페이지로 이동합니다
-                });
+
+    function loginChk() {
+        $.ajax({
+            url: '/login/check',
+            method: 'GET',
+            async: false, // 동기 요청으로 설정
+            success: function(user) {
+                var isLoggedIn;
+                isLoggedIn = !!user;
+                const username = user.name; // 예제 사용자 이름
+
+                if (isLoggedIn) {
+                    $('#user-info').show()
+                    $('#username').text(username + '님 안녕하세요');
+                    $('.login-btn').hide();
+
+                    $('#user-info').click(function () {
+                        // location.href = 'user-profile.html';
+                    });
+                } else {
+                    alert('로그인하세요')
+                    location.href = '/login'; // 로그인 페이지로 이동합니다
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error:', error);  // 오류가 발생하면 로그로 출력
+                console.error('Status:', status);
+                console.error('XHR:', xhr);
             }
         });
-
-        function check() {
-
-        }
-    </script>
+    }
+</script>
 </body>
 </html>

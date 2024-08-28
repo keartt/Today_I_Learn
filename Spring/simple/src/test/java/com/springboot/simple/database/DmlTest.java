@@ -1,5 +1,7 @@
 package com.springboot.simple.database;
 
+import com.springboot.simple.board.Board;
+import com.springboot.simple.board.BoardRepository;
 import com.springboot.simple.user.User;
 import com.springboot.simple.user.UserRepository;
 import org.junit.jupiter.api.Test;
@@ -14,6 +16,8 @@ public class DmlTest {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private BoardRepository boardRepository;
 
     @Test
     void getSimple() {
@@ -30,9 +34,9 @@ public class DmlTest {
                 .pw("비밀번호")
                 .name("이름")
                 .build();
-        userRepository.save(user);
+        User save = userRepository.save(user);
 
-        User savedUser = userRepository.findById(user.getId())
+        User savedUser = userRepository.findById(save.getId())
                 .orElseThrow(() -> new RuntimeException("User not found"));
         assertThat(user.getUserId()).isEqualTo(savedUser.getUserId());
     }
@@ -72,5 +76,28 @@ public class DmlTest {
         userRepository.delete(user);
 
         assertThat(userRepository.findById(user.getId()).isEmpty()).isTrue();
+    }
+
+    @Test
+    void mkMethod() {
+        User user = userRepository.findByUserIdAndPw("admin", "1234")
+                .orElseThrow(() -> new RuntimeException("no user"));
+        assertThat(user).isNotNull();
+    }
+
+    @Test
+    void manyToOne() {
+        User user = userRepository.findByUserIdAndPw("admin", "1234").get();
+        Board board = Board.builder()
+                .title("제목")
+                .content("con")
+                .user(user)
+                .build();
+        Board save = boardRepository.save(board);
+
+        Board saved = boardRepository.findById(save.getId())
+                .orElseThrow(() -> new RuntimeException("Board not found"));
+        assertThat(saved.getTitle()).isEqualTo(board.getTitle());
+        assertThat(saved.getContent()).isEqualTo(board.getContent());
     }
 }

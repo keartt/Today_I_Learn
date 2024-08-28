@@ -103,7 +103,7 @@
     <script>
         var join = () =>{
             var data = {
-                id: $('#userId').val(),
+                userId: $('#userId').val(),
                 pw: $('#password').val(),
                 name: $('#username').val(),
             };
@@ -113,11 +113,11 @@
                 contentType: 'application/json',
                 data: JSON.stringify(data),
                 success: function (boolean) {
-                    if (boolean) {
+                    if (!boolean) {
                         alert('이미 사용중인 아이디입니다.');
                     } else {
                         alert('회원가입이 완료되었습니다.');
-                        window.location.href = '/login.html';
+                        window.location.href = '/login';
                     }
                 },
                 error: function (err) {

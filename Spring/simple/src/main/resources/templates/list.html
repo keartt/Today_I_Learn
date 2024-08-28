@@ -68,11 +68,11 @@
             height: 30px;
             font-size: 14px;
         }
-        .num {
-            width: 50px;
-        }
         .title {
             width: 500px;
+        }
+        .time{
+            width: 200px;
         }
         .body {
             text-align: center;
@@ -107,25 +107,18 @@
     <div class="user-info" id="user-info" style="display: none;">
         <span id="username">사용자 이름</span>
     </div>
-    <button class="login-btn" id="login-d">로그아웃</button>
+    <button class="login-btn" id="logout">로그아웃</button>
     <button class="login-btn" id="login-btn">로그인</button>
 </div>
 
 <table class="table">
     <tr><td colspan="2"><h2>게시판</h2></td></tr>
     <tr class="header-table">
-        <td class="num">번호</td>
         <td class="title">제목</td>
-        <td>작성자</td>
-        <td>작성날짜</td>
+        <td style="width: 100px">작성자</td>
+        <td class="time">작성날짜</td>
     </tr>
     <tbody id="board-list">
-    <tr class="body">
-        <td>2</td>
-        <td>1</td>
-        <td>작성자</td>
-        <td>작성자</td>
-    </tr>
     </tbody>
 </table>
 <br>
@@ -137,30 +130,61 @@
 
 <script th:inline="javascript">
     $(document).ready(function () {
-        check();
-        // 예제 사용자 데이터
-        const isLoggedIn = true; // 로그인 상태를 시뮬레이션합니다 (false로 변경하면 로그아웃 상태가 됩니다)
-        const username = "홍길동"; // 예제 사용자 이름
+        loginChk();
+        getList();
 
-        if (isLoggedIn) {
-            $('#user-info').show()
-            $('#username').text(username + '님 안녕하세요');
-            $('.login-btn').hide();
-
-            $('#user-info').click(function () {
-                location.href = 'user-profile.html';
-            });
-        } else {
-            // 로그인 버튼 클릭 시 로그인 페이지로 리디렉션합니다
-            $('#login-btn').click(function () {
-                location.href = 'login.html'; // 로그인 페이지로 이동합니다
-            });
-        }
     });
 
-    function check() {
-        var name = /*[[${name}]]*/ 'default';
-        console.log(name); // '홍길동'
+    function getList() {
+        $.ajax({
+            url: '/board/list',
+            method: 'GET',
+            async: false, // 동기 요청으로 설정
+            success: function(res) {
+                res.forEach((item) => {
+                    var $tr = $('<tr class="body">' +
+                        '    <td>' + item.content + '</td>' +
+                        '    <td>' + item.user.name + '</td>' +
+                        '    <td>' + item.createTime + '</td>' +
+                        '</tr>');
+                    $tr.on('click', function () {
+                        location.href = '/detail/' + item.id;
+                    });
+                    $('#board-list').append($tr);
+                });
+            }
+        });
+    }
+
+    function loginChk() {
+        $.ajax({
+            url: '/login/check',
+            method: 'GET',
+            async: false, // 동기 요청으로 설정
+            success: function(user) {
+                var isLoggedIn;
+                isLoggedIn = !!user;
+                const username = user.name; // 예제 사용자 이름
+
+                if (isLoggedIn) {
+                    $('#user-info').show()
+                    $('#username').text(username + '님 안녕하세요');
+                    $('.login-btn').hide();
+
+                    $('#user-info').click(function () {
+                        // location.href = 'user-profile.html';
+                    });
+                } else {
+                    alert('로그인하세요')
+                    location.href = '/login'; // 로그인 페이지로 이동합니다
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error:', error);  // 오류가 발생하면 로그로 출력
+                console.error('Status:', status);
+                console.error('XHR:', xhr);
+            }
+        });
     }
 </script>
 </body>
