@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <title>게시판</title>
+</head>
+<body>
+<div class="header">
+    <div class="user-info" id="user-info" style="display: none;">
+        <span id="username">사용자 이름</span>
+    </div>
+    <button class="login-btn" id="login-btn" onclick="logout()">로그아웃</button>
+    <button id="back-btn" onclick="getList()">전체목록보기</button>
+</div>
+
+<h1 id="main">제목</h1>
+
+<div id="list">
+    <table class="table">
+        <tr class="header-table">
+            <td class="title">제목</td>
+            <td style="width: 100px">작성자</td>
+            <td class="time">작성날짜</td>
+        </tr>
+        <tbody id="board-list">
+        </tbody>
+    </table>
+    <br>
+    <table>
+        <tr>
+            <td><button onclick="toggleDiv('write')">글쓰기</button></td>
+        </tr>
+    </table>
+</div>
+
+<div id="write">
+    <table>
+        <tr><td class="header">Title</td></tr>
+        <tr><td><input type="text" placeholder="제목을 입력하세요" name="title" id="input_title"></td></tr>
+        <tr><td class="header">Comment</td></tr>
+        <tr><td><textarea placeholder="내용을 입력하세요" name="detail" id="input_content"></textarea></td></tr>
+    </table>
+    <div class="button">
+        <button id="submit-btn" onclick="createPost()">등록</button>
+        <button id="edit-btn" onclick="edit()">수정</button>
+    </div>
+</div>
+
+<div id="detail">
+    <div id="detailId" class="details">
+        <p><strong>제목:</strong> <span id="title" >제목 예시</span></p>
+        <p><strong>작성자:</strong> <span id="name" >작성자 예시</span></p>
+        <p><strong>생성시간:</strong> <span id="createTime" >2024-01-01 12:00:00</span></p>
+        <p><strong>수정시간:</strong> <span id="editTime" >2024-01-02 12:00:00</span></p>
+        <p><strong>내용:</strong></p>
+        <p id="content" >내용 예시</p>
+    </div>
+    <div class="button">
+        <button id="edit-chg-btn" onclick="chgToEdit()">수정</button>
+        <button id="del-btn" onclick="del()">삭제</button>
+    </div>
+</div>
+
+<script>
+    // 페이지 로드 시 실행
+    $(document).ready(function () {
+        toggleDiv('list');
+        loginChk();
+        getList();
+    });
+    var User;
+
+    function toggleDiv(id) {
+        $('#list').hide();
+        $('#write').hide();
+        $('#detail').hide();
+
+        // 전달된 요소만 표시
+        $(`#` + id).show();
+        $('#main').text(id);
+
+        $('#write div.button button').hide();
+        $('#input_title').val('');
+        $('#input_content').val('');
+        if (id == 'edit') {
+            $('#write').show();
+            $('#edit-btn').show();
+        }else{
+            $('#submit-btn').show();
+        }
+    }
+
+    function loginChk() {
+        var login = false;
+        $.ajax({
+            url: '/login/check',
+            method: 'GET',
+            async: false, // 동기 요청으로 설정
+            success: function(user) {
+                login = !!user;
+                const username = user.name; // 예제 사용자 이름
+
+                if (login) {
+                    $('#user-info').show()
+                    $('#username').text(username + '님 안녕하세요');
+                    User = user;
+                } else {
+                    alert('로그인하세요')
+                    location.href = '/login'; // 로그인 페이지로 이동합니다
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error:', error);  // 오류가 발생하면 로그로 출력
+                console.error('Status:', status);
+                console.error('XHR:', xhr);
+            }
+        });
+        return login;
+    }
+
+    function getList() {
+        toggleDiv('list');
+        $.ajax({
+            url: '/board/list',
+            method: 'GET',
+            async: false, // 동기 요청으로 설정
+            success: function(res) {
+                $('#board-list').empty();
+                res.forEach((item) => {
+                    var $tr = $('<tr class="body">' +
+                        '    <td>' + item.content + '</td>' +
+                        '    <td>' + item.user.name + '</td>' +
+                        '    <td>' + item.createTime + '</td>' +
+                        '</tr>');
+                    $tr.on('click', function () {
+                        detail(item.id);
+                    });
+                    $('#board-list').append($tr);
+                });
+            }
+        });
+    }
+
+    function detail(id) {
+        toggleDiv('detail');
+        $.ajax({
+            url: '/board/' + id,
+            method: 'GET',
+            dataType: 'json'
+        }).done(function (res) {
+            $('#title').text(res.title)
+            $('#name').text(res.user.name)
+            $('#createTime').text(res.createTime)
+            $('#editTime').text(res.editTime)
+
+            $('#detailId').attr('data-id', id);
+        });
+    }
+
+    function logout(){
+        $.post('/logout');
+        location.href = '/login'
+    }
+
+    function createPost() {
+        $.ajax({
+            url: '/board',
+            method:'POST',
+            contentType:'application/json',
+            data:JSON.stringify({
+                "title":$('#input_title').val(),
+                "content":$('#input_content').val()
+            }),
+            success: function (id) {
+                alert('작성추카')
+                detail(id);
+            },
+            error: function (xhr, status, error) {
+                console.error(error);
+            }
+        })
+    }
+
+    function chgToEdit(){
+        toggleDiv('edit');
+        $('#main').text('edit');
+        var id = $('#detailId').attr('data-id');
+        $.ajax({
+            url: '/board/' + id,
+            method: 'GET',
+            dataType: 'json'
+        }).done(function (res) {
+            $('#input_title').val(res.title)
+            $('#input_content').val(res.content)
+        })
+    }
+
+    function edit() {
+        var id = $('#detailId').attr('data-id');
+        $.ajax({
+            url: '/board',
+            method:'PUT',
+            contentType:'application/json',
+            data:JSON.stringify({
+                "id": id,
+                "title":$('#input_title').val(),
+                "content":$('#input_content').val()
+            }),
+            success: function (res) {
+                if (res) {
+                    alert('수정완료')
+                    detail(id);
+                }else{
+                    alert('썸띵 뤙~')
+                }
+
+            },
+            error: function (xhr, status, error) {
+                console.error(error);
+            }
+        })
+    }
+
+    function del(){
+        var id = $('#detailId').attr('data-id');
+        $.ajax({
+            url: '/board/' + id,
+            type: 'DELETE'
+        }).done(function (res) {
+            if (res) {
+                alert('삭제완료');
+                getList();
+            }
+        });
+    }
+
+</script>
+</body>
+</html>

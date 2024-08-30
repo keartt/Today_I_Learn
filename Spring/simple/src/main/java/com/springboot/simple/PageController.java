@@ -1,23 +1,22 @@
 package com.springboot.simple;
 
-import com.springboot.simple.board.Board;
-import com.springboot.simple.board.BoardService;
-import com.springboot.simple.user.User;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 @RequiredArgsConstructor
 public class PageController {
-    private final BoardService boardService;
-
     @GetMapping("/")
-    public String redirectToLogin() {
-        return "redirect:/login";
+    public String redirectToLogin(HttpSession session) {
+        String url;
+        if (session.getAttribute("user") ==null){
+            url = "/login";
+        }else{
+            url = "/board";
+        }
+        return "redirect:" + url;
     }
 
     @GetMapping("/login")
@@ -30,20 +29,8 @@ public class PageController {
         return "join";
     }
 
-    @GetMapping("/write")
+    @GetMapping("/board")
     String write(){
-        return "write";
+        return "board";
     }
-
-    @GetMapping("/list")
-    String list(){
-        return "list";
-    }
-
-    @GetMapping("/detail/{id}")
-    String detail(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("board",  boardService.getOne(id));
-        return "detail";
-    }
-
 }

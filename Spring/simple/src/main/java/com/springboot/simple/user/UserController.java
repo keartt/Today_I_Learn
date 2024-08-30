@@ -19,9 +19,9 @@ public class UserController {
         Object user = session.getAttribute("user");
         if (user != null) {
             return (User) user;
+        }else{
+            return null;
         }
-        Board board = new Board();
-        return null;
     }
     @Description("회원가입")
     @PostMapping("/join")
@@ -40,9 +40,10 @@ public class UserController {
         return false;
     }
 
+    @Description("로그아웃")
     @PostMapping("/logout")
     public void logout(HttpSession session) {
-        session.removeAttribute("user");
+        session.invalidate();
     }
     
 }
