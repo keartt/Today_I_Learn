@@ -19,6 +19,11 @@ public class PageController {
         return "redirect:" + url;
     }
 
+    @GetMapping("/chat")
+    public String chat() {
+        return "/chat";
+    }
+
     @GetMapping("/login")
     String login(){
         return "login";
