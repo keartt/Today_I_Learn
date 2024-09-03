@@ -1,36 +1,26 @@
-var usernamePage = document.querySelector('#username-page');
-var chatPage = document.querySelector('#chat-page');
-var usernameForm = document.querySelector('#usernameForm');
-var messageForm = document.querySelector('#messageForm');
-var messageInput = document.querySelector('#message');
-var messageArea = document.querySelector('#messageArea');
-var connectingElement = document.querySelector('.connecting');
-
 var stompClient = null;
 var username = null;
 var roomNum = null;
+var myDropzone = null;
 
-var colors = [
-    '#2196F3', '#32c787', '#00BCD4', '#ff5652',
-    '#ffc107', '#ff85af', '#FF9800', '#39bbb0'
-];
-
-function connect(event) {
-    username = document.querySelector('#name').value.trim();
-    roomNum = document.querySelector('#room').value.trim();
+function connect(e) {
+    e.preventDefault();
+    username = $('#name').val().trim();
+    roomNum = !!$('#room').val() ? $('#room').val().trim() : null;
 
     if(username) {
-        usernamePage.classList.add('hidden');
-        chatPage.classList.remove('hidden');
+        $('#username-page').addClass('hidden');
+        $('#chat-page').removeClass('hidden');
 
         var socket = new SockJS('/ws');
         stompClient = Stomp.over(socket);
 
+        // 디버그 출력을 비활성화
+        stompClient.debug = function() {};
+
         stompClient.connect({}, onConnected, onError);
     }
-    event.preventDefault();
 }
-
 
 function onConnected() {
     // Subscribe to the Public Topic
@@ -46,70 +36,102 @@ function onConnected() {
         JSON.stringify({sender: username, content: 'JOIN'})
     )
 
-    connectingElement.classList.add('hidden');
+    $('.connecting').addClass('hidden');
 }
 
-
-function onError(error) {
-    connectingElement.textContent = 'Could not connect to WebSocket server. Please refresh this page to try again!';
-    connectingElement.style.color = 'red';
+function onError(e) {
+    $('.connecting').text('Could not connect to WebSocket server. Please refresh this page to try again!');
+    $('.connecting').css({'color': 'red'})
 }
 
+function disconnect() {
+    if (stompClient) {
+        var header = {
+            priority: 'high',
+            room: roomNum
+        };
+        stompClient.send("/pub/chat/enter", header,
+            JSON.stringify({sender: username, content: 'LEAVE'})
+        );
+        stompClient.disconnect();
+    }
+}
 
-function sendMessage(event) {
-    var messageContent = messageInput.value.trim();
-    if(messageContent && stompClient) {
+function sendMessage(e) {
+    e.preventDefault();
+    var messageContent = $('#message').val().trim();
+    if(stompClient) {
         var chatMessage = {
             sender: username,
-            content: messageInput.value
         };
-        // stompClient.send(destination, headers, body)
-        stompClient.send("/pub/chat/message", {room : roomNum}, JSON.stringify(chatMessage));
-        messageInput.value = '';
-    }
-    event.preventDefault();
-}
+        // msg
+        if (!!messageContent) {
+            chatMessage.content = $('#message').val();
+            // stompClient.send(destination, headers, body)
+            stompClient.send("/pub/chat/message", {room : roomNum}, JSON.stringify(chatMessage));
+            $('#message').val('');
+        }
+        // file
+        if (myDropzone.files.length > 0) {
 
+            Array.from(myDropzone.files).forEach(file => {
+                var reader = new FileReader();
+
+                // 파일을 Data URL 형식으로 읽어 Base64로 변환
+                reader.readAsDataURL(file);
+
+                reader.onload = function(event) {
+                    chatMessage.base64 = event.target.result.split(',')[1];
+
+                    stompClient.send("/pub/chat/message", {room : roomNum}, JSON.stringify(chatMessage));
+                    myDropzone.removeAllFiles();
+                };
+
+                reader.onerror = function(error) {
+                    console.error('Error reading file:', error);
+                };
+            });
+        }
+    }
+}
 
 function onMessageReceived(payload) {
     var message = JSON.parse(payload.body);
-    console.log("message",message);
-    var messageElement = document.createElement('li');
+    var $messageElement = $('<li>');
 
-    if(message.content === 'JOIN') {
-        messageElement.classList.add('event-message');
-        message.content = message.sender + ' joined!';
-    } else if (message.content === 'LEAVE') {
-        messageElement.classList.add('event-message');
-        message.content = message.sender + ' left!';
+    if (message.content === 'JOIN' || message.content === 'LEAVE') {
+        $messageElement.addClass('event-message');
+        message.content += ' ' + message.sender;
     } else {
-        messageElement.classList.add('chat-message');
+        $messageElement.addClass('chat-message');
 
-        var avatarElement = document.createElement('i');
-        var avatarText = document.createTextNode(message.sender[0]);
-        avatarElement.appendChild(avatarText);
-        avatarElement.style['background-color'] = getAvatarColor(message.sender);
+        var avatarColor = getAvatarColor(message.sender);
 
-        messageElement.appendChild(avatarElement);
+        var $avatarElement = $('<i>').text(message.sender[0]).css('background-color', avatarColor);
+        $messageElement.append($avatarElement);
 
-        var usernameElement = document.createElement('span');
-        var usernameText = document.createTextNode(message.sender);
-        usernameElement.appendChild(usernameText);
-        messageElement.appendChild(usernameElement);
+        var $usernameElement = $('<span>').text(message.sender);
+        $messageElement.append($usernameElement);
+    }
+    var $elem;
+    if (!!message.base64){
+        $elem = $('<img>').attr('src', 'data:image/jpeg;base64,' + message.base64);
+    }else{
+        $elem = $('<p>').text(message.content);
     }
 
-    var textElement = document.createElement('p');
-    var messageText = document.createTextNode(message.content);
-    textElement.appendChild(messageText);
+    $messageElement.append($elem);
+    if (message.sender === username){
+        $messageElement.addClass('my-self')
+    }
 
-    messageElement.appendChild(textElement);
-
-    messageArea.appendChild(messageElement);
-    messageArea.scrollTop = messageArea.scrollHeight;
+    $('#messageArea').append($messageElement);
+    $('#messageArea').scrollTop($('#messageArea')[0].scrollHeight);
 }
 
-
 function getAvatarColor(messageSender) {
+    var colors = [  '#2196F3', '#32c787', '#00BCD4', '#ff5652', '#ffc107', '#ff85af', '#FF9800', '#39bbb0' ];
+
     var hash = 0;
     for (var i = 0; i < messageSender.length; i++) {
         hash = 31 * hash + messageSender.charCodeAt(i);
@@ -118,5 +140,34 @@ function getAvatarColor(messageSender) {
     return colors[index];
 }
 
-usernameForm.addEventListener('submit', connect, true)
-messageForm.addEventListener('submit', sendMessage, true)
+Dropzone.autoDiscover = false;
+$( document ).ready(function () {
+    $('#usernameForm').on('submit', connect);
+    $('#messageForm').on('submit', sendMessage);
+
+    myDropzone = new Dropzone("#dropzone", {
+        url: "/upload", // 파일을 업로드할 URL
+        autoProcessQueue: false, // 파일 자동 업로드 비활성화
+        maxFilesize: 2, // 최대 파일 크기 (MB 단위)
+        acceptedFiles: "image/*,application/pdf,.psd", // 허용되는 파일 타입
+        addRemoveLinks: true, // 업로드된 파일을 제거할 수 있는 링크
+        dictDefaultMessage: "Drag & Drop files here or click to upload", // 기본 메시지
+        init: function() {
+            this.on("success", function(file, response) {
+                myDropzone.removeAllFiles();
+            });
+            this.on("error", function(file, response) {
+                console.log("Error uploading file");
+            });
+        }
+    });
+});
+
+$(window).on('beforeunload', function(e) {
+    disconnect();
+    //
+    // sessionStorage.setItem('refresh', 'true');
+    // var message = '정말로 페이지를 떠나시겠습니까?';
+    // e.returnValue = message;
+    // return message; // 이 줄은 주로 Chrome과 같은 브라우저에서 사용됨
+});

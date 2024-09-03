@@ -216,6 +216,34 @@ button.accent {
 
 #chat-page .chat-message p {
     color: #43464b;
+    word-wrap: break-word; /* 단어 단위로 줄 바꿈 */
+    white-space: pre-wrap; /* 공백과 줄 바꿈을 유지 */
+    max-width: 100%; /* p 태그의 최대 너비를 설정 */
+    overflow-wrap: break-word; /* 긴 단어 줄 바꿈 */
+}
+
+#chat-page .chat-message img {
+    display: block;
+    max-width: 50%;
+}
+
+/* mySelf 클래스가 추가된 경우의 스타일 */
+#chat-page .chat-message.my-self {
+    padding-left: 0; /* 왼쪽 패딩 제거 */
+    padding-right: 68px; /* 오른쪽 패딩 추가 */
+    text-align: right; /* 메시지 텍스트를 오른쪽 정렬 */
+}
+
+#chat-page .chat-message.my-self i {
+    right: 10px; /* 아이콘을 오른쪽에 배치 */
+    left: auto; /* 왼쪽 위치 제거 */
+}
+
+#chat-page .chat-message.my-self p,
+#chat-page .chat-message.my-self img {
+    text-align: right; /* 텍스트와 이미지 오른쪽 정렬 */
+    margin-left: auto; /* 왼쪽 여백을 자동으로 */
+    margin-right: 0; /* 오른쪽 여백 제거 */
 }
 
 #messageForm .input-group input {
