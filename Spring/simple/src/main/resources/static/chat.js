@@ -96,6 +96,8 @@ function sendMessage(e) {
 }
 
 function onMessageReceived(payload) {
+    console.log(payload)
+    console.log(typeof payload)
     var message = JSON.parse(payload.body);
     var $messageElement = $('<li>');
 
@@ -171,3 +173,129 @@ $(window).on('beforeunload', function(e) {
     // e.returnValue = message;
     // return message; // 이 줄은 주로 Chrome과 같은 브라우저에서 사용됨
 });
+
+const $shareScreenButton = $('#shareScreen');
+const $stopSharingButton = $('#stopSharing');
+const $videoElement = $('#screenVideo');
+
+let localStream;
+let peerConnection;
+let dataChannel;
+$shareScreenButton.on('click', () => {
+    navigator.mediaDevices.getDisplayMedia({ video: true }).then(stream => {
+        localStream = stream;
+        $videoElement[0].srcObject = stream;
+        $videoElement[0].play();
+
+        // WebRTC PeerConnection 및 DataChannel 설정
+        peerConnection = new RTCPeerConnection();
+        dataChannel = peerConnection.createDataChannel('screenshare');
+
+        dataChannel.onopen = () => {
+            console.log('Data channel open');
+        };
+
+        dataChannel.onmessage = (event) => {
+            // 받은 데이터 처리
+            console.log('Received data: ', event.data);
+        };
+
+        // 화면 공유 스트림을 PeerConnection에 추가
+        stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
+
+        // 화면 공유 데이터 전송
+        stream.getTracks().forEach(track => {
+            track.ondataavailable = (event) => {
+                if (event.data.size > 0 && stompClient) {
+                    stompClient.send('/pub/chat/screen', { room: roomNum }, event.data);
+                }
+            };
+        });
+    }).catch(error => {
+        console.error('Error sharing screen: ', error);
+    });
+});
+
+// 화면 공유 종료
+$stopSharingButton.on('click', () => {
+    if (localStream) {
+        localStream.getTracks().forEach(track => track.stop());
+        $videoElement[0].srcObject = null;
+        localStream = null;
+    }
+
+    if (peerConnection) {
+        peerConnection.close();
+        peerConnection = null;
+    }
+
+    if (dataChannel) {
+        dataChannel.close();
+        dataChannel = null;
+    }
+});
+
+
+/*
+const $shareScreenButton = $('#shareScreen');
+const $stopSharingButton = $('#stopSharing');
+const $videoElement = $('#screenVideo');
+let screenStream;
+let recorder;
+
+// Start screen sharing
+$shareScreenButton.on('click', async function() {
+    try {
+        // 화면 캡처 요청
+        screenStream = await navigator.mediaDevices.getDisplayMedia({
+            video: {cursor: "always"},
+            audio: false
+        });
+        $videoElement.prop('srcObject', screenStream);
+
+        // 공유 중지 버튼 활성화
+        $stopSharingButton.prop('disabled', false);
+        $shareScreenButton.prop('disabled', true);
+
+        // MediaRecorder 생성
+        recorder = new MediaRecorder(screenStream);
+        recorder.ondataavailable = function (event) {
+            if (event.data.size > 0) {
+                event.data.arrayBuffer().then(arrayBuffer => {
+                    const array = new Uint8Array(arrayBuffer);
+                    stompClient.send("/pub/chat/screen", {room: roomNum}, array);
+                });
+            }
+        };
+        recorder.start(1000); // 매 초마다 데이터 전송
+
+        // 화면 공유 종료 처리
+        screenStream.getVideoTracks()[0].addEventListener('ended', () => {
+            stopSharing();
+        });
+    } catch (err) {
+        console.error("Error sharing screen:", err);
+    }
+});
+
+// Stop screen sharing
+$stopSharingButton.on('click', function() {
+    stopSharing();
+});
+
+function stopSharing() {
+    if (screenStream) {
+        // Stop all tracks to end the screen share
+        screenStream.getTracks().forEach(track => track.stop());
+        $videoElement.prop('srcObject', null);
+
+        // Update the UI
+        $stopSharingButton.prop('disabled', true);
+        $shareScreenButton.prop('disabled', false);
+
+        // Clean up MediaRecorder if it's used
+        if (recorder) {
+            recorder.stop();
+        }
+    }
+}*/
