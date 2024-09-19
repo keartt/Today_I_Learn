@@ -11,10 +11,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Base64;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
+// STOMP 로 편하게 메시지만 전송가능 바이너리 불가
 public class ChatController {
 
     private final SimpMessagingTemplate messagingTemplate; // 메시지를 특정 경로로 복내기 위해 사용
@@ -29,12 +33,6 @@ public class ChatController {
     @MessageMapping("/chat/message")
     public void message(@Payload ChatRequestDto dto, @Header("room") String roomNum) {
         messagingTemplate.convertAndSend("/sub/chat/room/" + roomNum, dto);
-    }
-
-    @MessageMapping("/chat/screen")
-    public void screenShare(@Payload byte[] data, @Header("room") String roomNum) {
-        // Broadcast the screen share data to all clients in the room
-        messagingTemplate.convertAndSend("/sub/chat/room/" + roomNum, data);
     }
 
 }

@@ -24,6 +24,11 @@ public class PageController {
         return "/chat";
     }
 
+    @GetMapping("/rtc")
+    public String rtc() {
+        return "/rtc";
+    }
+
     @GetMapping("/login")
     String login(){
         return "login";
