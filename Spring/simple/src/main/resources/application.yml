@@ -1,0 +1,25 @@
+server:
+    port: 8088
+    ssl:
+        enabled: true
+        key-store: classpath:ssltest.pkcs12
+        key-store-password: 123456
+        key-store-type: pkcs12
+        keyAlias: ssltest
+spring:
+    application:
+        name: simple
+    datasource:
+        hikari:
+            maximum-pool-size: 4
+        password: 1234
+        url: jdbc:postgresql://localhost:5432/postgres
+        username: postgres
+    jpa:
+        hibernate:
+            ddl-auto: update
+        properties:
+            hibernate:
+                show_sql: true
+    thymeleaf:
+        cache: false
