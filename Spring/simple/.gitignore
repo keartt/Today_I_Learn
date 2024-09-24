@@ -36,5 +36,5 @@ out/
 ### VS Code ###
 .vscode/
 
-*.cer
-*.pkcs12
+### important file / key
+/src/main/resources/config/

@@ -2,7 +2,7 @@ server:
     port: 8088
     ssl:
         enabled: true
-        key-store: classpath:ssltest.pkcs12
+        key-store: classpath:config/ssltest.pkcs12
         key-store-password: 123456
         key-store-type: pkcs12
         keyAlias: ssltest
@@ -12,9 +12,9 @@ spring:
     datasource:
         hikari:
             maximum-pool-size: 4
-        password: 1234
-        url: jdbc:postgresql://localhost:5432/postgres
-        username: postgres
+        url: ${psql.url}
+        username: ${psql.username}
+        password: ${psql.password}
     jpa:
         hibernate:
             ddl-auto: update
@@ -23,3 +23,6 @@ spring:
                 show_sql: true
     thymeleaf:
         cache: false
+    ai:
+        openai:
+            api-key: ${apikey.openai}
